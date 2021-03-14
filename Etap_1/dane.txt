@@ -1,0 +1,13 @@
+Nazwisko i imie: Szymański Marek
+email: szymanski_m@o2.pl
+grupa: 1ID22B
+temat: Object YAML Mapper
+technologie: Java, Reflection, snakeyaml 
+harmonogram:
+	Opis struktury pliku YAML (29.03)
+	Przygotowanie adnotacji dla klas i ich pól (12.04)
+	Mapowanie klas z typami prostymi i klasami wbudowanymi (String, BigInteger, BigDecimal) (10.05)
+	Mapowanie relacji jeden-do-jednego, jeden-do-wielu, wiele-do-wielu (31.05)
+	Mapowanie dziedziczenia (21.06)
+Temat z przedmiotu Programowanie systemów rozproszonych: Graf. Wyznaczania węzła, z którego suma minimalnych dróg do pozostałych węzłów jest minimalna. 
+Temat pracy inżynierskiej: Projekt i implementacja aplikacji do wymiany książek.
