@@ -1,8 +1,10 @@
 #Example Yaml
-yamlObject:
-  doe: "a deer, a female deer"
-  ray: "a drop of golden sun"
-  pi: 3.14159
-  xmas: true
-  french-hens:
-    hens: 3
+object:
+  - sku         : BL394D
+    quantity    : 4
+    description : Basketball
+    price       : 450.00
+  - sku         : BL4438H
+    quantity    : 1
+    description : Super Hoop
+    price       : 2392.00

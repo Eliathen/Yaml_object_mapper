@@ -1,17 +1,24 @@
 package com.szymanski.yamlobjectmapper.structure;
 
-public class YamlDictionary extends YamlObject{
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-    private String name;
+@Data
+@NoArgsConstructor
+public class YamlDictionary extends YamlObject {
+    @Getter
+    @Setter
     private String value;
 
-    public YamlDictionary(String name, String value) {
-        this.name = name;
+    public YamlDictionary(String key, String value) {
+        super(key);
         this.value = value;
     }
 
     @Override
-    Object resolve(String key, YamlObject value, Class name) {
+    public Object resolve(String key, YamlObject value, Class name) {
         return null;
     }
 }

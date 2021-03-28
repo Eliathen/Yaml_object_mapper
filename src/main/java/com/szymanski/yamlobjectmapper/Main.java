@@ -5,8 +5,11 @@ public class Main {
 
     public static void main(String[] args) {
         YamlMapper mapper = new YamlMapper();
-        mapper.getFile();
+        mapper.mapToObject("file.yaml", newClass.class);
 
     }
 
+    class newClass{
+
+    }
 }
