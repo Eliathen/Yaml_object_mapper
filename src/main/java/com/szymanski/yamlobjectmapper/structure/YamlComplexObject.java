@@ -2,26 +2,32 @@ package com.szymanski.yamlobjectmapper.structure;
 
 import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
-@NoArgsConstructor
-public class YamlComplexObject extends YamlObject {
+public class YamlComplexObject extends YamlNode {
+
     @Getter
     @Setter
-    private Map<String, YamlObject> complexObject;
+    private String key;
+    @Getter
+    @Setter
+    private List<YamlNode> value;
 
-    public YamlComplexObject(String key, Map<String, YamlObject> complexObject) {
-        super(key);
-        this.complexObject = complexObject;
+    public YamlComplexObject() {
+        value = new ArrayList<>();
+    }
+
+    public YamlComplexObject(String key, List<YamlNode> complexObject) {
+        this.key = key;
+        this.value = complexObject;
     }
 
     @Override
-    public Object resolve(String key, YamlObject value, Class name) {
+    public Object resolve(String key, YamlNode value, Class name) {
         return null;
     }
 }

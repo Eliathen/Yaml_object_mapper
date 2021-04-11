@@ -7,18 +7,21 @@ import lombok.Setter;
 
 @Data
 @NoArgsConstructor
-public class YamlDictionary extends YamlObject {
+public class YamlDictionary extends YamlNode {
     @Getter
     @Setter
-    private String value;
+    private String key;
+    @Getter
+    @Setter
+    private YamlScalar value;
 
-    public YamlDictionary(String key, String value) {
-        super(key);
+    public YamlDictionary(String key, YamlScalar value) {
+        this.key = key;
         this.value = value;
     }
 
     @Override
-    public Object resolve(String key, YamlObject value, Class name) {
+    public Object resolve(String key, YamlNode value, Class name) {
         return null;
     }
 }

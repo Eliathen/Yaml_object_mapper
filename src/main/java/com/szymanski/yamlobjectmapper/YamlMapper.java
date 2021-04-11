@@ -1,6 +1,7 @@
 package com.szymanski.yamlobjectmapper;
 
 import com.szymanski.yamlobjectmapper.converters.structure.YamlStructureConverter;
+import com.szymanski.yamlobjectmapper.structure.YamlNode;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.InputStream;
@@ -19,11 +20,9 @@ public class YamlMapper {
         InputStream inputStream = this.getClass()
                 .getClassLoader().getResourceAsStream(path);
         Map<String, Object> result = yaml.load(inputStream);
-        result.forEach((k, v) -> {
-            System.out.println(v);
-        });
-//        YamlObject yamlObject = converter.convertToYaml(result);
 
+        YamlNode yamlNode = converter.convertToYaml(result);
+        System.out.println(yamlNode);
         return (T) new Object();
     }
 
