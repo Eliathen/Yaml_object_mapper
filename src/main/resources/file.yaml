@@ -1,6 +1,9 @@
 #Example Yaml
 root:
- surname: Dee
- name: John
- job: Chef
- age: 25
+ object1:
+  name: John
+  job: Chef
+  age: 21
+ list:
+  - 1
+  - 2

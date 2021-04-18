@@ -1,10 +1,8 @@
 package com.szymanski.yamlobjectmapper.structure;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 public class YamlDictionary extends YamlNode {
@@ -23,5 +21,10 @@ public class YamlDictionary extends YamlNode {
     @Override
     public Object resolve(String key, YamlNode value, Class name) {
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return key + ": " + value.toString();
     }
 }

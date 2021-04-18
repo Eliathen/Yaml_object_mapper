@@ -1,28 +1,25 @@
 package com.szymanski.yamlobjectmapper;
 
 import com.szymanski.yamlobjectmapper.converters.structure.YamlStructureConverter;
-import com.szymanski.yamlobjectmapper.structure.YamlNode;
-import org.yaml.snakeyaml.Yaml;
+import com.szymanski.yamlobjectmapper.parser.YamlParser;
 
-import java.io.InputStream;
-import java.util.Map;
+import java.util.List;
 
 public class YamlMapper {
 
     private YamlStructureConverter converter;
+    private YamlReader yamlReader;
+    private YamlParser yamlParser;
 
     public YamlMapper() {
+        yamlReader = new YamlReader();
         converter = new YamlStructureConverter();
+        yamlParser = new YamlParser();
     }
 
     public <T> T mapToObject(String path, Class<T> type) {
-        Yaml yaml = new Yaml();
-        InputStream inputStream = this.getClass()
-                .getClassLoader().getResourceAsStream(path);
-        Map<String, Object> result = yaml.load(inputStream);
-
-        YamlNode yamlNode = converter.convertToYaml(result);
-        System.out.println(yamlNode);
+        List<String> lines = yamlReader.convert(path);
+        yamlParser.parse(lines);
         return (T) new Object();
     }
 

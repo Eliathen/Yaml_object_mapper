@@ -1,9 +1,11 @@
 package com.szymanski.yamlobjectmapper.structure;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class YamlScalar extends YamlNode {
 
@@ -18,5 +20,10 @@ public class YamlScalar extends YamlNode {
     @Override
     Object resolve(String key, YamlNode value, Class name) {
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return value;
     }
 }
