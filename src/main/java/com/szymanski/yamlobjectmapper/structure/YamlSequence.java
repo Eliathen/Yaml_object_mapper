@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class YamlList extends YamlNode {
+public class YamlSequence extends YamlNode {
     @Getter
     @Setter
     private String key;
@@ -16,11 +16,11 @@ public class YamlList extends YamlNode {
     @Setter
     private List<YamlNode> yamlObjectList;
 
-    public YamlList() {
+    public YamlSequence() {
         yamlObjectList = new ArrayList<>();
     }
 
-    public YamlList(String key, List<YamlNode> yamlObjectList) {
+    public YamlSequence(String key, List<YamlNode> yamlObjectList) {
         this.key = key;
         this.yamlObjectList = yamlObjectList;
     }

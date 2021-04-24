@@ -1,12 +1,10 @@
 package com.szymanski.yamlobjectmapper.structure;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
+@NoArgsConstructor
 public class YamlScalar extends YamlNode {
 
     @Getter

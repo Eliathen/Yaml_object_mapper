@@ -1,9 +1,11 @@
 #Example Yaml
+
 root:
  object1:
+   &s1
   name: John
   job: Chef
   age: 21
- list:
-  - 1
-  - 2
+ object2:
+   *s1
+ list: !students.yaml [ 1, 2, 3 ]

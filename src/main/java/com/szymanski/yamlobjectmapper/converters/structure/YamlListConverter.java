@@ -1,6 +1,6 @@
 package com.szymanski.yamlobjectmapper.converters.structure;
 
-import com.szymanski.yamlobjectmapper.structure.YamlList;
+import com.szymanski.yamlobjectmapper.structure.YamlSequence;
 
 import java.util.List;
 import java.util.Map;
@@ -8,9 +8,9 @@ import java.util.Map;
 public class YamlListConverter {
 
 
-    public YamlList toYaml(String key, Object value) {
+    public YamlSequence toYaml(String key, Object value) {
         YamlConverter converter = YamlConverter.getInstance();
-        YamlList list = new YamlList();
+        YamlSequence list = new YamlSequence();
         list.setKey(key);
         if (value instanceof Map) {
             ((Map<?, ?>) value).forEach((k, v) ->

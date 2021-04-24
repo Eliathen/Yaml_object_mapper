@@ -1,0 +1,38 @@
+package com.szymanski.yamlobjectmapper.structure;
+
+import lombok.Builder;
+import lombok.Data;
+
+import java.util.List;
+
+@Data
+@Builder
+public class YamlLine {
+
+    private String plainLine;
+
+    private Integer numberOfLine;
+
+    private String prefix;
+
+    private List<String> tags;
+
+    private String content;
+
+    private String anchor;
+
+    private String comment;
+
+
+    public void extractContentFromWholeLine() {
+        String content = plainLine.trim()
+                .replace(prefix, "")
+                .replace(anchor, "")
+                .replace(comment, "");
+        for (String tag : tags) {
+            content = content.replace(tag, "");
+        }
+        this.content = content.trim();
+    }
+
+}
