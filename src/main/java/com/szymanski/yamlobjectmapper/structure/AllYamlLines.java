@@ -16,16 +16,6 @@ public class AllYamlLines {
         this.allLines = allLines;
     }
 
-    public YamlLineType getYamlLineType(YamlLine line) {
-        return getYamlLineType(line.getNumberOfLine());
-    }
-
-    public YamlLineType getYamlLineType(int number) {
-        YamlLine currentLine = getLine(number);
-        //TO DO
-        return YamlLineType.EMPTY_LINE;
-    }
-
     private YamlLine getLine(int number) {
         return allLines.stream()
                 .filter(line -> line.getNumberOfLine().equals(number))

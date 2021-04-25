@@ -1,32 +1,38 @@
 package com.szymanski.yamlobjectmapper.structure;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class YamlSequence extends YamlNode {
-    @Getter
-    @Setter
-    private String key;
-    @Getter
-    @Setter
-    private List<YamlNode> yamlObjectList;
+public class YamlSequence extends YamlCollection {
 
     public YamlSequence() {
-        yamlObjectList = new ArrayList<>();
+        anchors = new ArrayList<>();
+        value = new ArrayList<>();
     }
 
-    public YamlSequence(String key, List<YamlNode> yamlObjectList) {
+    public YamlSequence(String key, List<YamlNode> value) {
         this.key = key;
-        this.yamlObjectList = yamlObjectList;
+        this.value = value;
     }
 
     @Override
     public Object resolve(String key, YamlNode value, Class name) {
         return null;
+    }
+
+    @Override
+    public void addNode(YamlNode node) {
+        value.add(node);
+    }
+
+    @Override
+    public String toString() {
+        return "YamlSequence{" +
+                "key:'" + key + '\'' + "\n" +
+                ", value=" + value + "\n" +
+                '}';
     }
 }

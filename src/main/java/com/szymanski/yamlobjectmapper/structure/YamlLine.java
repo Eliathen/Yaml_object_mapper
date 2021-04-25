@@ -25,7 +25,7 @@ public class YamlLine {
 
 
     public void extractContentFromWholeLine() {
-        String content = plainLine.trim()
+        String content = plainLine
                 .replace(prefix, "")
                 .replace(anchor, "")
                 .replace(comment, "");

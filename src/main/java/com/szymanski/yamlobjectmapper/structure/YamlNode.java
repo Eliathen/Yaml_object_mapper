@@ -9,4 +9,8 @@ public abstract class YamlNode {
     private List<String> tags;
 
     abstract Object resolve(String key, YamlNode value, Class name);
+
+    public void addNode(YamlNode node) {
+
+    }
 }

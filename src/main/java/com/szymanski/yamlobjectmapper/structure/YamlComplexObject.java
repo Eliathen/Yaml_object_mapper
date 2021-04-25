@@ -1,23 +1,13 @@
 package com.szymanski.yamlobjectmapper.structure;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Data
-public class YamlComplexObject extends YamlNode {
-
-    List<String> anchors;
-    @Getter
-    @Setter
-    private String key;
-    @Getter
-    @Setter
-    private List<YamlNode> value;
+public class YamlComplexObject extends YamlCollection {
 
     public YamlComplexObject() {
         anchors = new ArrayList<>();
@@ -27,15 +17,6 @@ public class YamlComplexObject extends YamlNode {
     public YamlComplexObject(String key, List<YamlNode> complexObject) {
         this.key = key;
         this.value = complexObject;
-    }
-
-    public void addAnchor(String anchor) {
-        anchors.add(anchor);
-    }
-
-    @Override
-    public Object resolve(String key, YamlNode value, Class name) {
-        return null;
     }
 
     @Override
@@ -49,5 +30,18 @@ public class YamlComplexObject extends YamlNode {
     @Override
     public int hashCode() {
         return Objects.hash(anchors, key, value);
+    }
+
+    @Override
+    public void addNode(YamlNode node) {
+        value.add(node);
+    }
+
+    @Override
+    public String toString() {
+        return "YamlComplexObject{" +
+                "key:'" + key + '\'' + "\n" +
+                ", value=" + value + "\n" +
+                '}';
     }
 }
