@@ -18,7 +18,7 @@ public class YamlMapper {
     public <T> T mapToObject(String path, Class<T> type) {
         List<String> lines = yamlReader.convert(path);
         YamlNode node = yamlParser.parse(lines);
-        System.out.println("Node = " + node);
+        System.out.println(node);
         return (T) new Object();
     }
 

@@ -40,8 +40,8 @@ public class YamlComplexObject extends YamlCollection {
     @Override
     public String toString() {
         return "YamlComplexObject{" +
-                "key:'" + key + '\'' + "\n" +
-                ", value=" + value + "\n" +
+                "key='" + key + '\'' +
+                ", value=" + value +
                 '}';
     }
 }

@@ -31,8 +31,8 @@ public class YamlSequence extends YamlCollection {
     @Override
     public String toString() {
         return "YamlSequence{" +
-                "key:'" + key + '\'' + "\n" +
-                ", value=" + value + "\n" +
+                "key='" + key + '\'' +
+                ", value=" + value +
                 '}';
     }
 }

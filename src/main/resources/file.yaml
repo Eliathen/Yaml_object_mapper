@@ -1,10 +1,10 @@
 #Example Yaml
 
-receipt: Oz-Ware Purchase Invoice
+receipt:
   date: 2012-08-06
   customer:
     first_name: Dorothy
     family_name: Gale
   items:
-    - part_no: A4786
-    - part_no: E1628
+    - A4786
+    - E1628
