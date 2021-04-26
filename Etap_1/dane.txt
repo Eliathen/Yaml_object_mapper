@@ -2,7 +2,7 @@ Nazwisko i imie: Szymański Marek
 email: szymanski_m@o2.pl
 grupa: 1ID22B
 temat: Object YAML Mapper
-technologie: Java, biblioteka Reflection, biblioteka snakeyaml 
+technologie: Java, biblioteka Reflection
 harmonogram:
 	Opis struktury pliku YAML (29.03)
 	Przygotowanie adnotacji dla klas i ich pól (12.04)
