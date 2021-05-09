@@ -1,9 +1,11 @@
 package com.szymanski.yamlobjectmapper.structure;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 public abstract class YamlCollection extends YamlNode {
     protected List<String> anchors;
@@ -14,9 +16,7 @@ public abstract class YamlCollection extends YamlNode {
         anchors.add(anchor);
     }
 
-    @Override
-    public Object resolve(String key, YamlNode value, Class name) {
-        return null;
-    }
+
+    abstract Object resolve(String key, YamlNode value, Class<?> name);
 
 }

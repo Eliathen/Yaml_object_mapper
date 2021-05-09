@@ -3,7 +3,7 @@ package com.szymanski.yamlobjectmapper.converters.field;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class DataConverter implements FieldConverter<LocalDate>{
+public class DateConverter implements FieldConverter<LocalDate> {
     @Override
     public LocalDate convertToValue(String value, String pattern) {
         return LocalDate.parse(value, DateTimeFormatter.ofPattern(pattern));

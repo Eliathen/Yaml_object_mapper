@@ -1,4 +1,4 @@
-package com.szymanski.yamlobjectmapper.structure;
+package com.szymanski.yamlobjectmapper.structure.read;
 
 import com.szymanski.yamlobjectmapper.exceptions.LineNotFoundException;
 import lombok.Data;

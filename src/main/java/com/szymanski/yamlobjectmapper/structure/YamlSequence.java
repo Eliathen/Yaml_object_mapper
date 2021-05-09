@@ -1,10 +1,12 @@
 package com.szymanski.yamlobjectmapper.structure;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class YamlSequence extends YamlCollection {
 
@@ -19,7 +21,7 @@ public class YamlSequence extends YamlCollection {
     }
 
     @Override
-    public Object resolve(String key, YamlNode value, Class name) {
+    public Object resolve(String key, YamlNode value, Class<?> name) {
         return null;
     }
 

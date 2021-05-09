@@ -19,7 +19,7 @@ public class YamlDictionary extends YamlNode {
     }
 
     @Override
-    public Object resolve(String key, YamlNode value, Class name) {
+    public Object resolve(String key, YamlNode value, Class<?> name) {
         return null;
     }
 

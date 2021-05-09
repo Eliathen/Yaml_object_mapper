@@ -16,7 +16,7 @@ public class YamlScalar extends YamlNode {
     }
 
     @Override
-    Object resolve(String key, YamlNode value, Class name) {
+    Object resolve(String key, YamlNode value, Class<?> name) {
         return null;
     }
 

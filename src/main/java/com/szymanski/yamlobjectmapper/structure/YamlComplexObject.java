@@ -44,4 +44,9 @@ public class YamlComplexObject extends YamlCollection {
                 ", value=" + value +
                 '}';
     }
+
+    @Override
+    Object resolve(String key, YamlNode value, Class<?> name) {
+        return null;
+    }
 }

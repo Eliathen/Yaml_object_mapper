@@ -1,6 +1,8 @@
 package com.szymanski.yamlobjectmapper.parser;
 
 import com.szymanski.yamlobjectmapper.structure.*;
+import com.szymanski.yamlobjectmapper.structure.read.AllYamlLines;
+import com.szymanski.yamlobjectmapper.structure.read.YamlLine;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -148,7 +150,6 @@ public class YamlParser {
         for (char c : line.toCharArray()) {
             if (c == ' ') {
                 prefix.append(c);
-                continue;
             } else if (c == '-') {
                 prefix.append(c);
             } else {

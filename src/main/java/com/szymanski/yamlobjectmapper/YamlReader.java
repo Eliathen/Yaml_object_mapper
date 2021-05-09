@@ -9,10 +9,9 @@ public class YamlReader {
 
     List<String> convert(String filePath) {
         File file = new File(filePath);
-        System.out.println(filePath);
         try (FileInputStream inputStream = new FileInputStream(file);
              InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-             BufferedReader reader = new BufferedReader(inputStreamReader);) {
+             BufferedReader reader = new BufferedReader(inputStreamReader)) {
             return reader.lines().collect(Collectors.toList());
 
         } catch (IOException e) {
