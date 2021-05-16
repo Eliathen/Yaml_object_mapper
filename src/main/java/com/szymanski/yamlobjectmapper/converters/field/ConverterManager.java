@@ -27,6 +27,9 @@ public class ConverterManager {
         fieldsConverter.put(BigInteger.class, new BigIntegerConverter());
         fieldsConverter.put(Long.class, new LongConverter());
 
+        fieldsConverter.put(Boolean.class, new BooleanConverter());
+        fieldsConverter.put(boolean.class, new BooleanConverter());
+
         fieldsConverter.put(LocalDate.class, new DateConverter());
         fieldsConverter.put(LocalDateTime.class, new DateTimeConverter());
 

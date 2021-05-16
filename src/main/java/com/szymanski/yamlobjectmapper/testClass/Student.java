@@ -2,7 +2,16 @@ package com.szymanski.yamlobjectmapper.testClass;
 
 import com.szymanski.yamlobjectmapper.annotations.YamlClass;
 import com.szymanski.yamlobjectmapper.annotations.YamlKey;
+import com.szymanski.yamlobjectmapper.annotations.YamlOneToMany;
+import com.szymanski.yamlobjectmapper.annotations.YamlOneToOne;
+import lombok.*;
 
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
+
+@Getter
+@Setter
 @YamlClass(name = "student")
 public class Student extends User {
 
@@ -12,35 +21,30 @@ public class Student extends User {
     private String firstName;
     @YamlKey(name = "second_name")
     private String secondName;
+    @YamlKey(name = "marks")
+    private List<Integer> marks;
+    @YamlOneToOne
+    @YamlKey(name = "address")
+    private Address address;
+    @YamlKey(name = "birthDate", pattern = "yyyy-MM-dd")
+    private LocalDate birthDate;
+    @YamlKey(name = "random_text")
+    private List<String> randomText;
+    @YamlKey(name = "is_alive")
+    private static boolean isAlive = true;
 
-    public Student(int id, int age, String firstName, String secondName) {
+    public Student(int id, int age, String firstName, String secondName, List<Integer> marks, Address address, LocalDate birthDate, List<String> randomText) {
         super(id);
         this.age = age;
         this.firstName = firstName;
         this.secondName = secondName;
+        this.marks = marks;
+        this.address = address;
+        this.birthDate = birthDate;
+        this.randomText = randomText;
     }
 
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setSecondName(String secondName) {
-        this.secondName = secondName;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getSecondName() {
-        return secondName;
+    public boolean getIsAlive() {
+        return isAlive;
     }
 }
