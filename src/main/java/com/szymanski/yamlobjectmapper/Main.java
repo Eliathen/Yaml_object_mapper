@@ -1,7 +1,7 @@
 package com.szymanski.yamlobjectmapper;
 
 
-import com.szymanski.yamlobjectmapper.testExample.Student;
+import com.szymanski.yamlobjectmapper.testClass.Student;
 
 public class Main {
 

@@ -15,7 +15,9 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class YamlMapper {
 
@@ -39,9 +41,10 @@ public class YamlMapper {
     }
 
     public <T> void mapToYaml(T object) {
-        Field[] fields = object.getClass().getDeclaredFields();
+        List<Field> fields = Arrays.stream(object.getClass().getDeclaredFields()).collect(Collectors.toList());
         getAnnotations(object.getClass());
         YamlComplexObject yamlComplexObject = new YamlComplexObject();
+        fields.addAll(getSuperclassFields(object));
         Optional<Annotation> yamlClass = Arrays.stream(getAnnotations(object.getClass()))
                 .filter(it -> it.annotationType().equals(YamlClass.class))
                 .findFirst();
@@ -87,6 +90,16 @@ public class YamlMapper {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private List<Field> getSuperclassFields(Object object) {
+        Class<?> clazz = object.getClass().getSuperclass();
+        List<Field> fields = new ArrayList<>();
+        while (!clazz.isInstance(Object.class)) {
+            fields.addAll(Arrays.stream(clazz.getDeclaredFields()).filter(it -> it.getModifiers() != Modifier.PRIVATE).collect(Collectors.toList()));
+            clazz = clazz.getSuperclass();
+        }
+        return fields;
     }
 
     public boolean isFieldCollection(Field field) {

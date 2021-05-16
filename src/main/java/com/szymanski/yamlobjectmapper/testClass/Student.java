@@ -1,14 +1,11 @@
-package com.szymanski.yamlobjectmapper.testExample;
+package com.szymanski.yamlobjectmapper.testClass;
 
 import com.szymanski.yamlobjectmapper.annotations.YamlClass;
-import com.szymanski.yamlobjectmapper.annotations.YamlId;
 import com.szymanski.yamlobjectmapper.annotations.YamlKey;
 
 @YamlClass(name = "student")
-public class Student {
+public class Student extends User {
 
-    @YamlId
-    protected int id;
     @YamlKey(name = "age")
     private int age;
     @YamlKey(name = "first_name")
@@ -17,18 +14,10 @@ public class Student {
     private String secondName;
 
     public Student(int id, int age, String firstName, String secondName) {
-        this.id = id;
+        super(id);
         this.age = age;
         this.firstName = firstName;
         this.secondName = secondName;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public void setAge(int age) {
