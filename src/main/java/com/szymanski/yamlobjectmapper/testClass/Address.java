@@ -2,20 +2,19 @@ package com.szymanski.yamlobjectmapper.testClass;
 
 import com.szymanski.yamlobjectmapper.annotations.YamlClass;
 import com.szymanski.yamlobjectmapper.annotations.YamlKey;
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 @YamlClass
-@Getter
+@Data
+@AllArgsConstructor
 public class Address {
 
+    @YamlKey(name = "city")
+    private String city;
     @YamlKey(name = "street")
     private String street;
     @YamlKey(name = "number")
-    private String number;
-
-    public Address(String street, String number) {
-        this.street = street;
-        this.number = number;
-    }
+    private String buildingNumber;
 
 }

@@ -10,8 +10,8 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
 @YamlClass(name = "student")
 public class Student extends User {
 
@@ -23,9 +23,6 @@ public class Student extends User {
     private String secondName;
     @YamlKey(name = "marks")
     private List<Integer> marks;
-    @YamlOneToOne
-    @YamlKey(name = "address")
-    private Address address;
     @YamlKey(name = "birthDate", pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
     @YamlKey(name = "random_text")
@@ -34,7 +31,7 @@ public class Student extends User {
     private static boolean isAlive = true;
 
     public Student(int id, int age, String firstName, String secondName, List<Integer> marks, Address address, LocalDate birthDate, List<String> randomText) {
-        super(id);
+        super(id, address);
         this.age = age;
         this.firstName = firstName;
         this.secondName = secondName;

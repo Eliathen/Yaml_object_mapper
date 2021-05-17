@@ -19,7 +19,13 @@ public class YamlWriter {
 
     public void saveToFile(YamlNode yaml) {
         result.clear();
+        if(yaml instanceof YamlComplexObject){
+            String newLine = ((YamlComplexObject) yaml).getKey() + ":";
+            result.add(newLine);
+        }
         resolveNextNode(yaml, "");
+
+
     }
 
     private void saveDictionary(YamlDictionary yaml, String s) {
@@ -58,7 +64,6 @@ public class YamlWriter {
     }
 
     private void resolveNextNode(YamlNode yaml, String prefix) {
-        System.out.println("Yaml ==== " + yaml);
         if (yaml instanceof YamlCollection) {
             for (YamlNode node : ((YamlCollection) yaml).getValue()) {
                 if (node instanceof YamlComplexObject) {
