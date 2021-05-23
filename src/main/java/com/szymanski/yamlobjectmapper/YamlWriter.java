@@ -19,10 +19,6 @@ public class YamlWriter {
 
     public void saveToFile(YamlNode yaml) {
         result.clear();
-        if(yaml instanceof YamlComplexObject){
-            String newLine = ((YamlComplexObject) yaml).getKey() + ":";
-            result.add(newLine);
-        }
         resolveNextNode(yaml, "");
 
 
@@ -39,17 +35,8 @@ public class YamlWriter {
         for (YamlNode yamlNode : yaml.getValue()) {
             lineBuilder.append(((YamlScalar) yamlNode).getValue()).append(", ");
         }
-        line = lineBuilder.toString();
-        line = line.substring(0, line.length() - 2) + "]";
+        line = lineBuilder.substring(0, line.length() - 2) + "]";
         result.add(line);
-    }
-
-    private void saveBlockSequence(YamlSequence yaml, String prefix) {
-        String line = prefix + yaml.getKey() + ":";
-        result.add(line);
-        yaml.getValue().forEach(it -> {
-            resolveNextNode(it, prefix + " - ");
-        });
     }
 
     private void saveScalar(YamlScalar scalar, String prefix) {
@@ -58,31 +45,44 @@ public class YamlWriter {
     }
 
     private void saveComplexObject(YamlComplexObject yaml, String prefix) {
-        String newLine = prefix + yaml.getKey() + ": ";
+        String newLine = prefix + (yaml).getKey() + ": ";
         result.add(newLine);
-        resolveNextNode(yaml, prefix);
+        for (YamlNode yamlNode : yaml.getValue()) {
+            resolveNextNode(yamlNode, prefix + " ");
+        }
     }
-
+    private void saveBlockSequence(YamlSequence yaml, String prefix){
+        String newLine = prefix + (yaml).getKey() + ": ";
+        result.add(newLine);
+        for (YamlNode yamlNode : yaml.getValue()) {
+            if(yamlNode instanceof YamlComplexObject){
+                for (int i = 0; i < ((YamlComplexObject) yamlNode).getValue().size(); i++) {
+                    if(i == 0){
+                        resolveNextNode(((YamlComplexObject) yamlNode).getValue().get(0), prefix + "- ");
+                    } else {
+                        resolveNextNode(((YamlComplexObject) yamlNode).getValue().get(i), prefix + "  ");
+                    }
+                }
+            } else {
+                resolveNextNode(yamlNode, prefix + "- ");
+            }
+        }
+    }
     private void resolveNextNode(YamlNode yaml, String prefix) {
         if (yaml instanceof YamlCollection) {
-            for (YamlNode node : ((YamlCollection) yaml).getValue()) {
-                if (node instanceof YamlComplexObject) {
-                    saveComplexObject((YamlComplexObject) node, prefix + " ");
-                } else if(node instanceof YamlSequence) {
-                    if (!((YamlSequence) node).getAnchors().isEmpty()) {
-                        saveFlowSequence((YamlSequence) node, prefix + " ");
-                    } else {
-                        saveBlockSequence((YamlSequence) node, prefix + " ");
+                if (yaml instanceof YamlComplexObject) {
+                    saveComplexObject((YamlComplexObject) yaml, prefix);
+                } else if (yaml instanceof YamlSequence) {
+                    if(((YamlSequence) yaml).getAnchors().isEmpty()){
+                        saveBlockSequence((YamlSequence) yaml, prefix);
                     }
                 } else {
-                    resolveNextNode(node, prefix);
+                    resolveNextNode(yaml, prefix);
                 }
-            }
         } else if (yaml instanceof YamlDictionary) {
-            saveDictionary((YamlDictionary) yaml, prefix + " ");
+            saveDictionary((YamlDictionary) yaml, prefix);
         } else {
             saveScalar((YamlScalar) yaml, prefix);
         }
     }
-
 }
