@@ -1,5 +1,7 @@
 package com.szymanski.yamlobjectmapper;
 
+import org.apache.commons.lang3.reflect.FieldUtils;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
 import java.util.*;
@@ -21,15 +23,18 @@ public class ReflectionHelper {
         return Collection.class.isAssignableFrom(field.getType());
     }
 
-    public static Object getFieldValue(Object object, String fieldName) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    public static Object getFieldValue(Object object, String fieldName) throws IllegalAccessException, InvocationTargetException, NoSuchFieldException {
         try {
             String name = getGetterNameForFieldName(fieldName);
             return object.getClass().getMethod(name).invoke(object);
         } catch (NoSuchMethodException e) {
-            return object.getClass().getMethod(fieldName).invoke(object);
+            Field field = object.getClass().getDeclaredField(fieldName);
+            field.setAccessible(true);
+            Object result = field.get(object);
+            field.setAccessible(false);
+            return result;
         }
     }
-
     public static String getGetterNameForFieldName(String fieldName) {
         return "get" + fieldName.substring(0, 1).toUpperCase(Locale.ROOT) + fieldName.substring(1);
     }

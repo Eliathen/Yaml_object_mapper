@@ -38,12 +38,13 @@ public class YamlResolver {
                         }
                     } else if(ReflectionHelper.isContainsAnnotation(field, YamlOneToMany.class)){
                         YamlSequence oneToManyYaml = new YamlSequence();
-                        oneToManyYaml.setKey(getKeyName(field.getClass()));
-                        Collection<?> value = (Collection<?>) ReflectionHelper.getFieldValue(object.getClass(), field.getName());
+                        oneToManyYaml.setKey(field.getName());
+                        Collection<?> value = (Collection<?>) ReflectionHelper.getFieldValue(object, field.getName());
                         for (Object obj : value) {
                             Map<String, YamlNode> oneToMany = resolveToYaml(obj);
                             oneToMany.keySet().forEach(it ->  oneToManyYaml.addNode(oneToMany.get(it)));
                         }
+                        yamlComplexObject.addNode(oneToManyYaml);
                     } else {
                         //TODO manyToMany implements
                     }
@@ -89,7 +90,7 @@ public class YamlResolver {
                     }
                 }
 
-            } catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

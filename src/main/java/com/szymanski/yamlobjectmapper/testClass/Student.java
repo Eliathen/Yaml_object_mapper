@@ -28,9 +28,9 @@ public class Student extends User {
     @YamlKey(name = "random_text")
     private List<String> randomText;
     @YamlKey(name = "is_alive")
-    private static boolean isAlive = true;
+    private boolean isAlive = true;
 
-    public Student(int id, int age, String firstName, String secondName, List<Integer> marks, Address address, LocalDate birthDate, List<String> randomText) {
+    public Student(int id, int age, String firstName, String secondName, List<Integer> marks, List<Address> address, LocalDate birthDate, List<String> randomText) {
         super(id, address);
         this.age = age;
         this.firstName = firstName;
@@ -39,9 +39,5 @@ public class Student extends User {
         this.address = address;
         this.birthDate = birthDate;
         this.randomText = randomText;
-    }
-
-    public boolean getIsAlive() {
-        return isAlive;
     }
 }
