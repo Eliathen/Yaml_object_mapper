@@ -10,8 +10,8 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @YamlClass(name = "student")
 public class Student extends User {
 
@@ -28,16 +28,20 @@ public class Student extends User {
     @YamlKey(name = "random_text")
     private List<String> randomText;
     @YamlKey(name = "is_alive")
-    private boolean isAlive = true;
+    private boolean isAlive;
+    @YamlOneToMany
+    @YamlKey(name = "subjects")
+    private List<Subject> subjects;
 
-    public Student(int id, int age, String firstName, String secondName, List<Integer> marks, List<Address> address, LocalDate birthDate, List<String> randomText) {
+    public Student(int id, Address address, int age, String firstName, String secondName, List<Integer> marks, LocalDate birthDate, List<String> randomText, boolean isAlive, List<Subject> subjects) {
         super(id, address);
         this.age = age;
         this.firstName = firstName;
         this.secondName = secondName;
         this.marks = marks;
-        this.address = address;
         this.birthDate = birthDate;
         this.randomText = randomText;
+        this.isAlive = isAlive;
+        this.subjects = subjects;
     }
 }

@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class ConverterManager {
 
-    Map<Class<?>, FieldConverter> fieldsConverter = new HashMap<>();
+    HashMap<Class<?>, FieldConverter> fieldsConverter = new HashMap<>();
 
     public ConverterManager() {
 
@@ -25,7 +25,10 @@ public class ConverterManager {
         fieldsConverter.put(Float.class, new FloatConverter());
 
         fieldsConverter.put(BigInteger.class, new BigIntegerConverter());
+
+
         fieldsConverter.put(Long.class, new LongConverter());
+        fieldsConverter.put(long.class, new LongConverter());
 
         fieldsConverter.put(Boolean.class, new BooleanConverter());
         fieldsConverter.put(boolean.class, new BooleanConverter());

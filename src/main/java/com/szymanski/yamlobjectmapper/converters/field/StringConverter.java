@@ -8,6 +8,7 @@ public class StringConverter implements FieldConverter<String> {
 
     @Override
     public String convertToString(String value, String pattern) {
+        if(value == null) return null;
         return "\"" + value + "\"";
     }
 }

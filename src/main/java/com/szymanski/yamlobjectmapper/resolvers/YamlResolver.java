@@ -89,7 +89,6 @@ public class YamlResolver {
                         yamlComplexObject.addNode(dictionary);
                     }
                 }
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -101,9 +100,11 @@ public class YamlResolver {
     }
 
     private <T> String getKeyName(T object) {
-        Annotation[] annotations = object.getClass().getAnnotations();
-        Optional<Annotation> annotation = Arrays.stream(annotations).findFirst().filter(it -> it.annotationType().equals(YamlKey.class));
-        return annotation.map(value -> ((YamlKey) value).name()).orElseGet(() -> object.getClass().getSimpleName().toLowerCase());
+        if(object.getClass().isAnnotationPresent(YamlKey.class)){
+            return object.getClass().getAnnotation(YamlKey.class).name();
+        } else {
+            return object.getClass().getSimpleName().toLowerCase();
+        }
     }
 
     private boolean isFieldTypeOfRelation(Field field) {
