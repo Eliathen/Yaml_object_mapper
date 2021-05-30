@@ -9,6 +9,7 @@ import com.szymanski.yamlobjectmapper.testClass.Subject;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class Main {
@@ -31,11 +32,15 @@ public class Main {
         Instructor instructor1 = new Instructor("name1", "surname1", "degree1");
         Instructor instructor2 = new Instructor("name2", "surname2", "degree2");
 
-        Subject subject1 = new Subject("Subject1", "Type1", Arrays.asList(instructor1, instructor2));
-        Subject subject2 = new Subject("Subject2", "Type2", Arrays.asList(instructor1, instructor2));
-        List<Subject> subjects = Arrays.asList(subject1, subject2);
-        List<String> randomString = Arrays.asList("Random text 1","Random text 2" );
 
-        return new Student(1, address,25,"John", "Dee",  marks,date, randomString, true, subjects);
+        List<String> randomString = Arrays.asList("Random text 1", "Random text 2");
+
+        Student student = new Student(1, address, 25, "John", "Dee", marks, date, randomString, true);
+
+        Subject subject1 = new Subject("Subject 1", "Type 1", Arrays.asList(instructor1, instructor2), Collections.singletonList(student));
+        Subject subject2 = new Subject("Subject 2", "Type 2", Arrays.asList(instructor1, instructor2), Collections.singletonList(student));
+        List<Subject> subjects = Arrays.asList(subject1, subject2);
+        student.setSubjects(subjects);
+        return student;
     }
 }

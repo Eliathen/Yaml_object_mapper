@@ -1,9 +1,6 @@
 package com.szymanski.yamlobjectmapper.testClass;
 
-import com.szymanski.yamlobjectmapper.annotations.YamlClass;
-import com.szymanski.yamlobjectmapper.annotations.YamlKey;
-import com.szymanski.yamlobjectmapper.annotations.YamlOneToMany;
-import com.szymanski.yamlobjectmapper.annotations.YamlOneToOne;
+import com.szymanski.yamlobjectmapper.annotations.*;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -29,11 +26,11 @@ public class Student extends User {
     private List<String> randomText;
     @YamlKey(name = "is_alive")
     private boolean isAlive;
-    @YamlOneToMany
+    @YamlManyToMany
     @YamlKey(name = "subjects")
     private List<Subject> subjects;
 
-    public Student(int id, Address address, int age, String firstName, String secondName, List<Integer> marks, LocalDate birthDate, List<String> randomText, boolean isAlive, List<Subject> subjects) {
+    public Student(int id, Address address, int age, String firstName, String secondName, List<Integer> marks, LocalDate birthDate, List<String> randomText, boolean isAlive) {
         super(id, address);
         this.age = age;
         this.firstName = firstName;
@@ -42,6 +39,5 @@ public class Student extends User {
         this.birthDate = birthDate;
         this.randomText = randomText;
         this.isAlive = isAlive;
-        this.subjects = subjects;
     }
 }

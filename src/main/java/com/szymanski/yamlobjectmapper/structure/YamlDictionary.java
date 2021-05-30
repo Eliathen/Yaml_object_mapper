@@ -2,6 +2,8 @@ package com.szymanski.yamlobjectmapper.structure;
 
 import lombok.*;
 
+import java.util.List;
+
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
@@ -17,6 +19,7 @@ public class YamlDictionary extends YamlNode {
         this.key = key;
         this.value = value;
     }
+
 
     @Override
     public Object resolve(String key, YamlNode value, Class<?> name) {

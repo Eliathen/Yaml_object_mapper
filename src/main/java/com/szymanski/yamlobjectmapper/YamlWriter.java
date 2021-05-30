@@ -25,18 +25,26 @@ public class YamlWriter {
     }
 
     private void saveDictionary(YamlDictionary yaml, String s) {
-        String newLine = s + yaml.getKey() + ": " + yaml.getValue();
-        result.add(newLine);
+            String newLine = s + yaml.getKey() + ": " + yaml.getValue();
+            result.add(newLine);
     }
 
     private void saveFlowSequence(YamlSequence yaml, String prefix) {
-        String line = prefix + yaml.getKey() + ": [";
+        String line = prefix + yaml.getKey() + ": " + getAnchorsAsString(yaml) + " [";
         StringBuilder lineBuilder = new StringBuilder(line);
         for (YamlNode yamlNode : yaml.getValue()) {
-            lineBuilder.append(((YamlScalar) yamlNode).getValue()).append(", ");
+            lineBuilder.append(yamlNode).append(", ");
         }
-        line = lineBuilder.substring(0, line.length() - 2) + "]";
+        line = lineBuilder.substring(0, lineBuilder.length() - 2) + "]";
         result.add(line);
+    }
+
+    private String getAnchorsAsString(YamlSequence yaml) {
+        StringBuilder anchors = new StringBuilder();
+        for (String anchor : yaml.getAnchors()) {
+            anchors.append("!").append(anchor).append(" ");
+        }
+        return anchors.toString().trim();
     }
 
     private void saveScalar(YamlScalar scalar, String prefix) {
@@ -45,15 +53,17 @@ public class YamlWriter {
     }
 
     private void saveComplexObject(YamlComplexObject yaml, String prefix) {
-        String newLine = prefix + (yaml).getKey() + ": ";
-        result.add(newLine);
+            String newLine = prefix + (yaml).getKey() + ": ";
+            result.add(newLine);
         for (YamlNode yamlNode : yaml.getValue()) {
             resolveNextNode(yamlNode, prefix + " ");
         }
     }
     private void saveBlockSequence(YamlSequence yaml, String prefix){
-        String newLine = prefix + (yaml).getKey() + ": ";
-        result.add(newLine);
+        if(yaml.getKey() != null) {
+            String newLine = prefix + (yaml).getKey() + ": ";
+            result.add(newLine);
+        }
         for (YamlNode yamlNode : yaml.getValue()) {
             if(yamlNode instanceof YamlComplexObject){
                 for (int i = 0; i < ((YamlComplexObject) yamlNode).getValue().size(); i++) {
@@ -75,6 +85,8 @@ public class YamlWriter {
                 } else if (yaml instanceof YamlSequence) {
                     if(((YamlSequence) yaml).getAnchors().isEmpty()){
                         saveBlockSequence((YamlSequence) yaml, prefix);
+                    } else {
+                        saveFlowSequence((YamlSequence) yaml, prefix);
                     }
                 } else {
                     resolveNextNode(yaml, prefix);

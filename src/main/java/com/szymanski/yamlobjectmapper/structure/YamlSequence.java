@@ -15,9 +15,10 @@ public class YamlSequence extends YamlCollection {
         value = new ArrayList<>();
     }
 
-    public YamlSequence(String key, List<YamlNode> value) {
-        this.key = key;
-        this.value = value;
+    public YamlSequence(List<YamlNode> nodes) {
+        anchors = new ArrayList<>();
+        value = new ArrayList<>();
+        value.addAll(nodes);
     }
 
     @Override
