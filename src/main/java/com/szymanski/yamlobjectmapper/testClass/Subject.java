@@ -21,8 +21,7 @@ public class Subject {
     @YamlOneToMany
     private List<Instructor> instructors;
 
-    @YamlKey(name = "students")
-    @Mapped
+    @Mapped(name = "student")
     private List<Student> students;
 
     public Subject(String name, String type, List<Instructor> instructors, List<Student> students) {

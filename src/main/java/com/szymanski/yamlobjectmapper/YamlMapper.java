@@ -41,7 +41,7 @@ public class YamlMapper {
         return (T) new Object();
     }
 
-    public <T> void mapToYaml(T object) {
+    public <T> void mapToYaml(T object) throws NoSuchFieldException, InvocationTargetException, IllegalAccessException {
         Map<String, YamlNode> result = yamlResolver.resolveToYaml(object);
         result.keySet().forEach(key -> {
             writer.saveToFile(result.get(key));

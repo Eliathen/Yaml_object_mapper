@@ -6,6 +6,7 @@ import com.szymanski.yamlobjectmapper.testClass.Instructor;
 import com.szymanski.yamlobjectmapper.testClass.Student;
 import com.szymanski.yamlobjectmapper.testClass.Subject;
 
+import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,7 +18,11 @@ public class Main {
     public static void main(String[] args) {
         YamlMapper mapper = new YamlMapper();
         Student student = generateTestObject();
-        mapper.mapToYaml(student);
+        try {
+            mapper.mapToYaml(student);
+        } catch (NoSuchFieldException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
 //        mapper.mapToObject("/home/user/Projects/Yaml_object_mapper/src/main/resources/file.yaml", Student.class);
     }
 

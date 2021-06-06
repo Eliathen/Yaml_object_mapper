@@ -9,7 +9,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@YamlClass(name = "student")
+@YamlClass(name = "students")
 public class Student extends User {
 
     @YamlKey(name = "age")
