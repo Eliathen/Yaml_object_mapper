@@ -1,10 +1,7 @@
 package com.szymanski.yamlobjectmapper;
 
 
-import com.szymanski.yamlobjectmapper.testClass.Address;
-import com.szymanski.yamlobjectmapper.testClass.Instructor;
-import com.szymanski.yamlobjectmapper.testClass.Student;
-import com.szymanski.yamlobjectmapper.testClass.Subject;
+import com.szymanski.yamlobjectmapper.testClass.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
@@ -17,35 +14,30 @@ public class Main {
 
     public static void main(String[] args) {
         YamlMapper mapper = new YamlMapper();
-        Student student = generateTestObject();
+        Client client = generateTestObject();
         try {
-            mapper.mapToYaml(student);
+            mapper.mapToYaml(client);
         } catch (NoSuchFieldException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
         }
-//        mapper.mapToObject("/home/user/Projects/Yaml_object_mapper/src/main/resources/file.yaml", Student.class);
+//        mapper.mapToObject("src/main/resources/file.yaml", Client.class);
     }
 
-    private static Student generateTestObject() {
-        List<Integer> marks = new ArrayList<>();
-        marks.add(5);
-        marks.add(4);
-        marks.add(3);
+    private static Client generateTestObject() {
         Address address = new Address("Kielce", "Street", "ABC");
+        Product product = new Product(1L, "Kettle", 60.0, Collections.emptyList());
+        Product product2 = new Product(2L, "Washing machine", 450.0, Collections.emptyList());
+        Product product3 = new Product(3L, "Sink", 120.0, Collections.emptyList());
 
-        LocalDate date = LocalDate.now();
-        Instructor instructor1 = new Instructor("name1", "surname1", "degree1");
-        Instructor instructor2 = new Instructor("name2", "surname2", "degree2");
+        Category category = new Category(1, "Kitchen", "Kitchen description", List.of(product, product3));
+        Category category2 = new Category(2, "Bathroom", "Bathroom equipment", List.of(product2, product3));
+        product.setCategories(List.of(category));
+        product2.setCategories(List.of(category2));
+        product3.setCategories(List.of(category, category2));
 
+        Order order = new Order(1L, LocalDate.now(), List.of(product2, product3));
+        Order order2 = new Order(2L, LocalDate.now().minusDays(3), List.of(product, product3));
 
-        List<String> randomString = Arrays.asList("Random text 1", "Random text 2");
-
-        Student student = new Student(1, address, 25, "John", "Dee", marks, date, randomString, true);
-
-        Subject subject1 = new Subject("Subject 1", "Type 1", Arrays.asList(instructor1, instructor2), Collections.singletonList(student));
-        Subject subject2 = new Subject("Subject 2", "Type 2", Arrays.asList(instructor1, instructor2), Collections.singletonList(student));
-        List<Subject> subjects = Arrays.asList(subject1, subject2);
-        student.setSubjects(subjects);
-        return student;
+        return new Client(1,address, 25, "John", "Dee", List.of(order, order2));
     }
 }

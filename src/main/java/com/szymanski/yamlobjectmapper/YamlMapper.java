@@ -1,24 +1,16 @@
 package com.szymanski.yamlobjectmapper;
 
-import com.szymanski.yamlobjectmapper.annotations.YamlClass;
-import com.szymanski.yamlobjectmapper.annotations.YamlKey;
-import com.szymanski.yamlobjectmapper.converters.field.ConverterManager;
 import com.szymanski.yamlobjectmapper.parser.YamlParser;
 import com.szymanski.yamlobjectmapper.resolvers.YamlResolver;
-import com.szymanski.yamlobjectmapper.structure.YamlComplexObject;
-import com.szymanski.yamlobjectmapper.structure.YamlDictionary;
 import com.szymanski.yamlobjectmapper.structure.YamlNode;
-import com.szymanski.yamlobjectmapper.structure.YamlScalar;
+import com.szymanski.yamlobjectmapper.structure.YamlSequence;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.AnnotatedElement;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Modifier;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 public class YamlMapper {
 
@@ -42,20 +34,20 @@ public class YamlMapper {
     }
 
     public <T> void mapToYaml(T object) throws NoSuchFieldException, InvocationTargetException, IllegalAccessException {
-        Map<String, YamlNode> result = yamlResolver.resolveToYaml(object);
-        result.keySet().forEach(key -> {
+        var result = yamlResolver.resolve(object);
+        for (String key : result.keySet()) {
             writer.saveToFile(result.get(key));
             List<String> lines = writer.getResult();
-            try {
-                FileWriter writer = new FileWriter(key + ".yaml");
-                for (String s : lines) {
-                    writer.write(s + "\n");
+                try {
+                    FileWriter writer = new FileWriter(key + ".yaml");
+                    for (String s : lines) {
+                        writer.write(s + "\n");
+                    }
+                    writer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                writer.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+        }
     }
 
 }

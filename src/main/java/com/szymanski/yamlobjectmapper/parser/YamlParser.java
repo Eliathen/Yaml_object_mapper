@@ -14,47 +14,39 @@ public class YamlParser {
             throw new IllegalArgumentException("Empty File");
         }
         AllYamlLines yamlLines = parseStringLinesToYamlLines(lines);
-        return analyze(yamlLines);
+        return analyze(yamlLines, 0, yamlLines.getAllLines().size() - 1);
+    }
+
+    private YamlNode analyze(AllYamlLines yamlLines, int firstIndex, int lastIndex) {
+        return null;
     }
 
     private int first = 0;
 
-    private YamlNode analyze(AllYamlLines yamlLines) {
-        YamlNode node;
-        while (shouldSkipLine(yamlLines.getAllLines().get(first))) {
-            first++;
-        }
-        YamlLine firstLine = yamlLines.getAllLines().get(first);
-        if (isYamlDictionary(yamlLines, first)) {
-            node = extractYamlDictionary(firstLine);
-        } else if (isYamlScalar(yamlLines, first)) {
-            node = new YamlScalar(yamlLines.getAllLines().get(first).getContent().trim());
-        } else {
-            int second = first + 1;
-            while ((second < (yamlLines.getAllLines().size() - 1)) &&
-                    !isLinesHaveThisSameLevel(firstLine, peekNextLine(yamlLines, second))) {
-                second++;
-            }
-            YamlCollection yamlCollection;
-            if (isYamlBlockMapping(yamlLines, first)) {
-                yamlCollection = new YamlComplexObject();
-            } else {
-                yamlCollection = new YamlSequence();
-            }
-            Optional<String> key = getKeyFromLine(firstLine);
-            yamlCollection.getAnchors().add(firstLine.getAnchor());
-            key.ifPresent(yamlCollection::setKey);
-            do {
-                first++;
-                yamlCollection.addNode(analyze(yamlLines));
-            } while (first != second);
-            node = yamlCollection;
-        }
-        return node;
+        private YamlDictionary extractYamlDictionary(AllYamlLines yamlLines, int startIndex) {
+        var line = yamlLines.getAllLines().get(startIndex);
+        String[] split = line.getContent().split(":");
+        return new YamlDictionary(split[0], new YamlScalar(split[1]));
     }
 
-    private Optional<String> getKeyFromLine(YamlLine firstLine) {
-        return Arrays.stream(firstLine.getContent().split(":")).findFirst();
+    private boolean isYamlDictionary(AllYamlLines lines, int index) {
+        YamlLine line = lines.getAllLines().get(index);
+        String[] split = line.getContent().split(":");
+        return split.length > 1 && !split[1].isBlank();
+    }
+
+    private boolean isYamlSequence(AllYamlLines yamlLines, int startIndex) {
+        return false;
+    }
+
+    private boolean isYamlComplexObject(AllYamlLines lines, int index) {
+        YamlLine line = lines.getAllLines().get(index);
+        String[] split = line.getContent().split(":");
+        return split.length == 1 || split[1].isBlank();
+    }
+
+    private Optional<String> getKeyFromLine(YamlLine line) {
+        return Arrays.stream(line.getContent().split(":")).findFirst();
     }
 
     private AllYamlLines parseStringLinesToYamlLines(List<String> lines) {
@@ -76,50 +68,12 @@ public class YamlParser {
         return new AllYamlLines(yamlLines);
     }
 
-    private YamlDictionary extractYamlDictionary(YamlLine line) {
-        YamlDictionary dictionary = new YamlDictionary();
-        String[] values = line.getContent().split(":");
-        dictionary.setKey(values[0]);
-        dictionary.setValue(new YamlScalar(values[1]));
-        return dictionary;
-    }
-
     public boolean shouldSkipLine(YamlLine line) {
         return line.getPlainLine().startsWith("#") || line.getContent().isEmpty();
     }
 
-    private boolean isYamlDictionary(AllYamlLines lines, int lineNumber) {
-        YamlLine line = lines.getAllLines().get(lineNumber);
-        return line.getContent().contains(":") && line.getContent().split(":").length > 1;
-    }
-
-    private boolean isYamlScalar(AllYamlLines lines, int lineNumber) {
-        YamlLine line = lines.getAllLines().get(lineNumber);
-        return !line.getContent().contains(":");
-    }
-
-    private boolean isYamlFlowSequence(AllYamlLines lines, int lineNumber) {
-        YamlLine line = lines.getAllLines().get(lineNumber);
-        return line.getContent().contains("[");
-    }
-
-    private boolean isYamlBlockSequence(AllYamlLines lines, int lineNumber) {
-        System.out.println(lines.getAllLines().get(lineNumber));
-        if (!isYamlDictionary(lines, lineNumber)) {
-            return peekNextLine(lines, lineNumber).getPrefix().contains("-");
-        }
-        return false;
-    }
-
     private boolean isLinesHaveThisSameLevel(YamlLine first, YamlLine second) {
         return first.getPrefix().length() == second.getPrefix().length();
-    }
-
-    private boolean isYamlBlockMapping(AllYamlLines lines, int lineNumber) {
-        if (!isYamlDictionary(lines, lineNumber)) {
-            return isYamlDictionary(lines, lineNumber + 1);
-        }
-        return false;
     }
 
     private YamlLine peekNextLine(AllYamlLines lines, int lineNumber) {

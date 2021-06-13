@@ -1,6 +1,7 @@
 package com.szymanski.yamlobjectmapper.structure;
 
 import lombok.Data;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
