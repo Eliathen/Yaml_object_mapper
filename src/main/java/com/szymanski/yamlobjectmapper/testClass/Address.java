@@ -4,10 +4,12 @@ import com.szymanski.yamlobjectmapper.annotations.YamlClass;
 import com.szymanski.yamlobjectmapper.annotations.YamlKey;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-@YamlClass
 @Data
 @AllArgsConstructor
+@YamlClass(name = "address")
+@EqualsAndHashCode
 public class Address {
 
     @YamlKey(name = "city")

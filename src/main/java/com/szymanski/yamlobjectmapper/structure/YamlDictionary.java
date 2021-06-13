@@ -28,6 +28,9 @@ public class YamlDictionary extends YamlNode {
 
     @Override
     public String toString() {
-        return key + ": " + value.toString();
+        return "YamlDictionary{" +
+                "key='" + key + '\'' +
+                ", value=" + value +
+                '}';
     }
 }
