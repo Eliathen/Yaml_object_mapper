@@ -32,10 +32,10 @@ public class YamlMapper {
         System.out.println(node);
         return (T) new Object();
     }
-
-    public <T> void mapToYaml(T object) throws NoSuchFieldException, InvocationTargetException, IllegalAccessException {
+    public <T> void mapToYamlFile(T object) throws NoSuchFieldException, InvocationTargetException, IllegalAccessException {
         var result = yamlResolver.resolve(object);
         for (String key : result.keySet()) {
+            System.out.println(result.get(key));
             writer.saveToFile(result.get(key));
             List<String> lines = writer.getResult();
                 try {

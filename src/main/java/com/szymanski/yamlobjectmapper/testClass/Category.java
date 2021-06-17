@@ -13,7 +13,6 @@ import java.util.Objects;
 @YamlClass(name = "category")
 public class Category {
 
-    @YamlId
     @YamlKey(name = "id")
     private Integer id;
 

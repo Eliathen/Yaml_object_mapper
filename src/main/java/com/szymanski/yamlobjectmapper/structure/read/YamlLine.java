@@ -23,7 +23,6 @@ public class YamlLine {
 
     private String comment;
 
-
     public void extractContentFromWholeLine() {
         String content = plainLine
                 .replace(prefix, "")
@@ -35,4 +34,10 @@ public class YamlLine {
         this.content = content.trim();
     }
 
+    public String getPrefix() {
+        if(prefix.contains("-")) {
+            return prefix.substring(0, prefix.indexOf("-") + 1);
+        }
+        return prefix;
+    }
 }

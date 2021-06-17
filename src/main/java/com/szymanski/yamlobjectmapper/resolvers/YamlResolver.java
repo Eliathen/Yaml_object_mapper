@@ -8,6 +8,7 @@ import lombok.SneakyThrows;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.sql.Ref;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -52,7 +53,7 @@ public class YamlResolver {
                         YamlNode resolvedNode = resolveToYaml(o);
                         yamlSequence.addNode(resolvedNode);
                         var generatedKey = new YamlDictionary();
-                        if(mapping.containsKey(o)){
+                        if (mapping.containsKey(o)) {
                             generatedKey.setKey("_id");
                             generatedKey.setValue(new YamlScalar(mapping.get(o)));
                         } else {
@@ -73,7 +74,7 @@ public class YamlResolver {
                     for (Object o : value) {
                         var generatedKey = new YamlDictionary();
                         YamlNode resolvedNode = resolveToYaml(o);
-                        if(mapping.containsKey(o)){
+                        if (mapping.containsKey(o)) {
                             generatedKey.setKey("_id");
                             generatedKey.setValue(new YamlScalar(mapping.get(o)));
                             resolvedNode.addNode(generatedKey);
@@ -86,7 +87,7 @@ public class YamlResolver {
                         keys.addNode(generatedKey.getValue());
                     }
 
-                    if(retYaml.containsKey(keyName)){
+                    if (retYaml.containsKey(keyName)) {
                         for (YamlNode yamlNode : yamlSequence.getValue()) {
                             retYaml.get(keyName).addNode(yamlNode);
                         }
@@ -99,9 +100,17 @@ public class YamlResolver {
                 if (ReflectionHelper.isFieldTypeOfCollection(field)) {
                     Collection<?> value = (Collection<?>) ReflectionHelper.getFieldValue(object, field.getName());
                     YamlSequence yamlSequence = new YamlSequence();
+                    var annotation = field.getAnnotation(YamlKey.class);
                     yamlSequence.setKey(getKeyName(field, field.getName()));
                     for (Object o : value) {
-                        yamlSequence.addNode(resolveToYaml(o));
+                        yamlSequence.addNode(new YamlScalar(
+                                        converterManager.convertToString(
+                                                o.getClass(),
+                                                o,
+                                                (annotation != null) ? annotation.pattern() : ""
+                                        )
+                                )
+                        );
                     }
                     yamlComplexObject.addNode(yamlSequence);
                 } else {
@@ -124,7 +133,7 @@ public class YamlResolver {
                 keys.setAnchors(Collections.singletonList(field.getAnnotation(Mapped.class).name()));
                 Collection<?> value = (Collection<?>) ReflectionHelper.getFieldValue(object, field.getName());
                 for (Object o : value) {
-                    if(mapping.containsKey(o)){
+                    if (mapping.containsKey(o)) {
                         var key = mapping.get(o);
                         keys.addNode(new YamlScalar(key));
                     } else {

@@ -19,7 +19,7 @@ import java.util.Objects;
 @YamlClass(name = "product")
 public class Product {
 
-    @YamlId
+    @YamlKey(name = "productId")
     private Long productId;
     @YamlKey(name = "name")
     private String name;

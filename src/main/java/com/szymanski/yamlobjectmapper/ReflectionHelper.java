@@ -20,7 +20,7 @@ public class ReflectionHelper {
     }
 
     public static boolean isFieldTypeOfCollection(Field field) {
-        return Collection.class.isAssignableFrom(field.getType());
+        return Collection.class.isAssignableFrom(field.getType()) || Collection.class == field.getType();
     }
 
     public static Object getFieldValue(Object object, String fieldName) throws IllegalAccessException, InvocationTargetException, NoSuchFieldException {

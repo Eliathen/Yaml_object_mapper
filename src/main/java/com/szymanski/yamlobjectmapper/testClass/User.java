@@ -10,7 +10,8 @@ import java.util.Objects;
 @Getter
 @Setter
 public class User {
-    @YamlId
+
+    @YamlKey(name = "id")
     protected int id;
     @YamlOneToOne
     @YamlKey(name = "address")

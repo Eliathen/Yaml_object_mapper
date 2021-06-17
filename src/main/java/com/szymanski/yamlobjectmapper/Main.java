@@ -5,8 +5,6 @@ import com.szymanski.yamlobjectmapper.testClass.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -16,11 +14,13 @@ public class Main {
         YamlMapper mapper = new YamlMapper();
         Client client = generateTestObject();
         try {
-            mapper.mapToYaml(client);
+            mapper.mapToYamlFile(client);
+            System.out.println();
+            mapper.mapToObject("client.yaml", Client.class);
+            mapper.mapToObject("categories.yaml", Client.class);
         } catch (NoSuchFieldException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
         }
-//        mapper.mapToObject("src/main/resources/file.yaml", Client.class);
     }
 
     private static Client generateTestObject() {
@@ -38,6 +38,6 @@ public class Main {
         Order order = new Order(1L, LocalDate.now(), List.of(product2, product3));
         Order order2 = new Order(2L, LocalDate.now().minusDays(3), List.of(product, product3));
 
-        return new Client(1,address, 25, "John", "Dee", List.of(order, order2));
+        return new Client(1,address, 25, "John", List.of("Dee", "Dee1"), List.of(order, order2));
     }
 }
