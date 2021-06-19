@@ -1,4 +1,4 @@
-package com.szymanski.yamlobjectmapper.converters.field;
+package com.szymanski.yamlobjectmapper.converters;
 
 import java.math.BigInteger;
 

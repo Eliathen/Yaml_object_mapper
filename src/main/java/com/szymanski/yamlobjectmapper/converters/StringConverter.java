@@ -1,9 +1,9 @@
-package com.szymanski.yamlobjectmapper.converters.field;
+package com.szymanski.yamlobjectmapper.converters;
 
 public class StringConverter implements FieldConverter<String> {
     @Override
     public String convertToValue(String value, String pattern) {
-        return value.substring(1, value.length() - 2); //TO DO test
+        return value.substring(1, value.length() - 1); //TO DO test
     }
 
     @Override

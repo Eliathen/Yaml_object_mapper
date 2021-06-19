@@ -1,4 +1,4 @@
-package com.szymanski.yamlobjectmapper.converters.field;
+package com.szymanski.yamlobjectmapper.converters;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 public class DateConverter implements FieldConverter<LocalDate> {
     @Override
     public LocalDate convertToValue(String value, String pattern) {
-        return LocalDate.parse(value.substring(1, value.length() - 2), DateTimeFormatter.ofPattern(pattern));
+        return LocalDate.parse(value.substring(1, value.length() - 1), DateTimeFormatter.ofPattern(pattern));
     }
 
     @Override

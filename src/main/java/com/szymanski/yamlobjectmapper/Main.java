@@ -4,6 +4,7 @@ package com.szymanski.yamlobjectmapper;
 import com.szymanski.yamlobjectmapper.testClass.*;
 
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.NotDirectoryException;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
@@ -16,9 +17,10 @@ public class Main {
         try {
             mapper.mapToYamlFile(client);
             System.out.println();
-            mapper.mapToObject("client.yaml", Client.class);
-            mapper.mapToObject("categories.yaml", Client.class);
-        } catch (NoSuchFieldException | InvocationTargetException | IllegalAccessException e) {
+            var obj = mapper.mapToObject("D:\\Projects\\Yaml_object_mapper", Client.class);
+            System.out.println("Before mappping     = " + client);
+            System.out.println("This is O-B-J-E-C-T = " + obj);
+        } catch (NoSuchFieldException | InvocationTargetException | IllegalAccessException | NotDirectoryException e) {
             e.printStackTrace();
         }
     }

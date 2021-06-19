@@ -1,52 +1,58 @@
 package com.szymanski.yamlobjectmapper;
 
 import com.szymanski.yamlobjectmapper.parser.YamlParser;
-import com.szymanski.yamlobjectmapper.resolvers.YamlResolver;
+import com.szymanski.yamlobjectmapper.resolvers.YamlResolverToFile;
+import com.szymanski.yamlobjectmapper.resolvers.YamlResolverToObject;
 import com.szymanski.yamlobjectmapper.structure.YamlNode;
-import com.szymanski.yamlobjectmapper.structure.YamlSequence;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.nio.file.NotDirectoryException;
+import java.util.*;
 
 public class YamlMapper {
 
-    private YamlReader yamlReader;
-    private YamlParser yamlParser;
-    private YamlWriter writer;
-    private YamlResolver yamlResolver;
+    private final YamlParser yamlParser;
+    private final YamlWriter writer;
+    private final YamlResolverToFile yamlResolverToFile;
+    private final YamlResolverToObject yamlResolverToObject;
+    private Map<String, YamlNode> nodes;
 
     public YamlMapper() {
-        yamlReader = new YamlReader();
         yamlParser = new YamlParser();
         writer = new YamlWriter();
-        yamlResolver = new YamlResolver();
+        yamlResolverToFile = new YamlResolverToFile();
+        yamlResolverToObject = new YamlResolverToObject();
     }
 
-    public <T> T mapToObject(String path, Class<T> type) {
-        List<String> lines = yamlReader.convert(path);
-        YamlNode node = yamlParser.parse(lines);
-        System.out.println(node);
-        return (T) new Object();
+    public <T> T mapToObject(String path, Class<T> type) throws NotDirectoryException {
+        File file = new File(path);
+        if (!file.isDirectory()) throw new NotDirectoryException("Path is not to directory");
+        List<YamlNode> nodes = new ArrayList<>();
+        Arrays.stream(Objects.requireNonNull(file.listFiles()))
+                .filter(it -> it.isFile() && (it.getName().contains(".yml") || it.getName().contains(".yaml")))
+                .forEach(it -> nodes.add(yamlParser.parse(it.getAbsolutePath())));
+        nodes.forEach(System.out::println);
+        return (T) yamlResolverToObject.resolve(nodes, type);
     }
+
     public <T> void mapToYamlFile(T object) throws NoSuchFieldException, InvocationTargetException, IllegalAccessException {
-        var result = yamlResolver.resolve(object);
+        var result = yamlResolverToFile.resolve(object);
         for (String key : result.keySet()) {
             System.out.println(result.get(key));
             writer.saveToFile(result.get(key));
             List<String> lines = writer.getResult();
-                try {
-                    FileWriter writer = new FileWriter(key + ".yaml");
-                    for (String s : lines) {
-                        writer.write(s + "\n");
-                    }
-                    writer.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+            try {
+                FileWriter writer = new FileWriter(key + ".yaml");
+                for (String s : lines) {
+                    writer.write(s + "\n");
                 }
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

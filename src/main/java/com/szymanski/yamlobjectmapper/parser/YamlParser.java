@@ -10,7 +10,16 @@ import java.util.stream.Collectors;
 
 public class YamlParser {
 
-    public YamlNode parse(List<String> lines) {
+    private final YamlReader yamlReader;
+    int numberOfLines = 0;
+    private int position = 0;
+
+    public YamlParser() {
+        this.yamlReader = new YamlReader();
+    }
+
+    public YamlNode parse(String path) {
+        var lines = yamlReader.convert(path);
         if (lines.isEmpty()) {
             throw new IllegalArgumentException("Empty File");
         }
@@ -20,17 +29,21 @@ public class YamlParser {
         return analyze(yamlLines);
     }
 
-    int numberOfLines = 0;
-    private int position = 0;
 
     private YamlNode analyze(AllYamlLines yamlLines) {
         var newNode = new YamlComplexObject();
-        while ((position < numberOfLines)) {
+        while (position < numberOfLines) {
+            if (!yamlLines.getAllLines().get(position).getTags().isEmpty()) {
+                newNode.setTags(yamlLines.getAllLines().get(position).getTags());
+            }
             while (shouldSkipLine(yamlLines.getAllLines().get(position))) {
                 position++;
             }
             if (isYamlBlockSequence(yamlLines)) {
                 var sequence = new YamlSequence();
+                if (!yamlLines.getAllLines().get(position).getTags().isEmpty()) {
+                    sequence.setTags(yamlLines.getAllLines().get(position).getTags());
+                }
                 getKeyFromLine(yamlLines.getAllLines().get(position)).ifPresent(sequence::setKey);
                 var rootLine = yamlLines.getAllLines().get(position);
                 position++;
@@ -44,8 +57,11 @@ public class YamlParser {
                 return sequence;
             } else if (isYamlFlowSequence(yamlLines)) {
                 var sequence = new YamlSequence();
-                getKeyFromLine(yamlLines.getAllLines().get(position)).ifPresent(sequence::setKey);
                 var line = yamlLines.getAllLines().get(position);
+                if (!line.getTags().isEmpty()) {
+                    sequence.setTags(yamlLines.getAllLines().get(position).getTags().stream().map(tag -> tag.replace("!", "")).collect(Collectors.toList()));
+                }
+                getKeyFromLine(line).ifPresent(sequence::setKey);
                 var content = line.getContent().split(":")[1].trim();
                 content = content.replace("[", "");
                 content = content.replace("]", "");
@@ -105,7 +121,7 @@ public class YamlParser {
 
     private boolean isYamlDictionary(AllYamlLines lines) {
         YamlLine line = lines.getAllLines().get(position);
-        if(line.getPrefix().contains("-")) return false;
+        if (line.getPrefix().contains("-")) return false;
         String[] split = line.getContent().split(":");
         return split.length > 1 && !split[1].isBlank();
     }
@@ -115,6 +131,7 @@ public class YamlParser {
         String[] split = line.getContent().split(":");
         return (split.length == 1 || split[1].isBlank()) && !line.getPrefix().contains("-") && peekNextLine(lines, position).getPrefix().contains("-");
     }
+
     private boolean isYamlFlowSequence(AllYamlLines lines) {
         YamlLine line = lines.getAllLines().get(position);
         String[] split = line.getContent().split(":");
@@ -123,7 +140,7 @@ public class YamlParser {
 
     private boolean isYamlComplexObject(AllYamlLines lines) {
         YamlLine line = lines.getAllLines().get(position);
-        if(!line.getContent().contains(":")) return false;
+        if (!line.getContent().contains(":")) return false;
         String[] split = line.getContent().split(":");
         return split.length == 1 || split[1].isBlank();
     }

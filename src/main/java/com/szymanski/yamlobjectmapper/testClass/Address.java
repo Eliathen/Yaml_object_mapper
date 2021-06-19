@@ -16,7 +16,9 @@ public class Address {
     private String city;
     @YamlKey(name = "street")
     private String street;
-    @YamlKey(name = "number")
+    @YamlKey(name = "buildingNumber")
     private String buildingNumber;
 
+    public Address() {
+    }
 }

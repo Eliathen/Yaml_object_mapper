@@ -1,9 +1,8 @@
-package com.szymanski.yamlobjectmapper.converters.field;
+package com.szymanski.yamlobjectmapper.converters;
 
 public class IntegerConverter implements FieldConverter<Integer> {
     @Override
     public Integer convertToValue(String value, String pattern) {
-
         return Integer.parseInt(value);
     }
 

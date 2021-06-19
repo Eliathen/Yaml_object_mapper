@@ -1,4 +1,4 @@
-package com.szymanski.yamlobjectmapper.converters.field;
+package com.szymanski.yamlobjectmapper.converters;
 
 public class DoubleConverter implements FieldConverter<Double> {
     @Override

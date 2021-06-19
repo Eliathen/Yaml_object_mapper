@@ -1,29 +1,27 @@
 package com.szymanski.yamlobjectmapper.resolvers;
 
-import com.szymanski.yamlobjectmapper.ReflectionHelper;
+import com.szymanski.yamlobjectmapper.helpers.ReflectionHelper;
 import com.szymanski.yamlobjectmapper.annotations.*;
-import com.szymanski.yamlobjectmapper.converters.field.ConverterManager;
+import com.szymanski.yamlobjectmapper.converters.ConverterManager;
 import com.szymanski.yamlobjectmapper.structure.*;
 import lombok.SneakyThrows;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.sql.Ref;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class YamlResolver {
+public class YamlResolverToFile {
 
     private final ConverterManager converterManager;
 
     private final Map<Object, String> mapping = new HashMap<>();
 
-
     public final Map<String, YamlNode> retYaml = new HashMap<>();
 
     private Long id = 1L;
 
-    public YamlResolver() {
+    public YamlResolverToFile() {
         this.converterManager = new ConverterManager();
     }
 
@@ -34,7 +32,7 @@ public class YamlResolver {
         return retYaml;
     }
 
-    public <T> YamlNode resolveToYaml(T object) throws NoSuchFieldException, InvocationTargetException, IllegalAccessException {
+    private <T> YamlNode resolveToYaml(T object) throws NoSuchFieldException, InvocationTargetException, IllegalAccessException {
         List<Field> fields = Arrays.stream(object.getClass().getDeclaredFields()).collect(Collectors.toList());
         fields.addAll(ReflectionHelper.getSuperclassFields(object));
 

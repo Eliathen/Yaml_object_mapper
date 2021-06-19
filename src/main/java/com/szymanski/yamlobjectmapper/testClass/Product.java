@@ -5,10 +5,7 @@ import com.szymanski.yamlobjectmapper.annotations.YamlClass;
 import com.szymanski.yamlobjectmapper.annotations.YamlId;
 import com.szymanski.yamlobjectmapper.annotations.YamlKey;
 import com.szymanski.yamlobjectmapper.annotations.YamlManyToMany;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 import java.util.Objects;
@@ -36,6 +33,17 @@ public class Product {
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
         return Objects.equals(productId, product.productId) && Objects.equals(name, product.name) && Objects.equals(price, product.price);
+    }
+
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productId=" + productId +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", categories=" + categories +
+                '}';
     }
 
     @Override

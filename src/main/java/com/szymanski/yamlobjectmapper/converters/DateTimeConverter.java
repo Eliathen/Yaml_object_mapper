@@ -1,4 +1,4 @@
-package com.szymanski.yamlobjectmapper.converters.field;
+package com.szymanski.yamlobjectmapper.converters;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

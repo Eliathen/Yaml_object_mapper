@@ -5,6 +5,7 @@ import com.szymanski.yamlobjectmapper.annotations.YamlKey;
 import com.szymanski.yamlobjectmapper.annotations.YamlOneToMany;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 import java.util.Objects;
@@ -12,6 +13,7 @@ import java.util.Objects;
 
 @NoArgsConstructor
 @Data
+@ToString
 @YamlClass(name = "client")
 public class Client extends User{
 
@@ -44,4 +46,13 @@ public class Client extends User{
     public int hashCode() {
         return Objects.hash(age, firstName, secondNames);
     }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
 }

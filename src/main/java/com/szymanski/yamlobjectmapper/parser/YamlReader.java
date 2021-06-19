@@ -1,13 +1,16 @@
-package com.szymanski.yamlobjectmapper;
+package com.szymanski.yamlobjectmapper.parser;
+
+import lombok.NoArgsConstructor;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@NoArgsConstructor
 public class YamlReader {
 
-    List<String> convert(String filePath) {
+    public List<String> convert(String filePath) {
         File file = new File(filePath);
         try (FileInputStream inputStream = new FileInputStream(file);
              InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
