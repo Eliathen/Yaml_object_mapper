@@ -1,4 +1,4 @@
-package com.szymanski.yamlobjectmapper.converters.field;
+package com.szymanski.yamlobjectmapper.converters;
 
 import com.szymanski.yamlobjectmapper.exceptions.NotFoundConverterException;
 
@@ -6,7 +6,6 @@ import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.Map;
 
 public class ConverterManager {
 
@@ -44,5 +43,12 @@ public class ConverterManager {
             throw new NotFoundConverterException(clazz.toString());
         }
         return fieldsConverter.get(clazz).convertToString(value, pattern);
+    }
+
+    public Object convertToValue(Class<?> clazz, String value, String pattern){
+        if (!fieldsConverter.containsKey(clazz)) {
+            throw new NotFoundConverterException(clazz.toString());
+        }
+        return fieldsConverter.get(clazz).convertToValue(value, pattern);
     }
 }

@@ -4,6 +4,7 @@ import com.szymanski.yamlobjectmapper.annotations.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 import java.util.Objects;
@@ -13,7 +14,6 @@ import java.util.Objects;
 @YamlClass(name = "category")
 public class Category {
 
-    @YamlId
     @YamlKey(name = "id")
     private Integer id;
 
@@ -44,5 +44,14 @@ public class Category {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, description);
+    }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

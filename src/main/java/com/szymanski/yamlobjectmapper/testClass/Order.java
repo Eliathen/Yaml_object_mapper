@@ -17,7 +17,6 @@ import java.util.Objects;
 @YamlClass(name = "order")
 public class Order {
 
-    @YamlId
     @YamlKey(name = "id")
     private Long id;
 

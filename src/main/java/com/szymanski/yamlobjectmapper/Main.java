@@ -4,9 +4,8 @@ package com.szymanski.yamlobjectmapper;
 import com.szymanski.yamlobjectmapper.testClass.*;
 
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.NotDirectoryException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -16,11 +15,14 @@ public class Main {
         YamlMapper mapper = new YamlMapper();
         Client client = generateTestObject();
         try {
-            mapper.mapToYaml(client);
-        } catch (NoSuchFieldException | InvocationTargetException | IllegalAccessException e) {
+            mapper.mapToYamlFile(client);
+            System.out.println();
+            var obj = mapper.mapToObject("D:\\Projects\\Yaml_object_mapper", Client.class);
+            System.out.println("Before mappping     = " + client);
+            System.out.println("This is O-B-J-E-C-T = " + obj);
+        } catch (NoSuchFieldException | InvocationTargetException | IllegalAccessException | NotDirectoryException e) {
             e.printStackTrace();
         }
-//        mapper.mapToObject("src/main/resources/file.yaml", Client.class);
     }
 
     private static Client generateTestObject() {
@@ -38,6 +40,6 @@ public class Main {
         Order order = new Order(1L, LocalDate.now(), List.of(product2, product3));
         Order order2 = new Order(2L, LocalDate.now().minusDays(3), List.of(product, product3));
 
-        return new Client(1,address, 25, "John", "Dee", List.of(order, order2));
+        return new Client(1,address, 25, "John", List.of("Dee", "Dee1"), List.of(order, order2));
     }
 }

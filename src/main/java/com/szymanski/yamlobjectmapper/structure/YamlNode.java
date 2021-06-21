@@ -13,4 +13,19 @@ public abstract class YamlNode {
     public void addNode(YamlNode node) {
 
     }
+    public abstract Class<?> getType();
+
+    public abstract String getKey();
+
+    public String getAnchor() {
+        return anchor;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
 }

@@ -33,4 +33,9 @@ public class YamlDictionary extends YamlNode {
                 ", value=" + value +
                 '}';
     }
+
+    @Override
+    public Class<?> getType() {
+        return YamlDictionary.class;
+    }
 }

@@ -32,10 +32,22 @@ public class YamlSequence extends YamlCollection {
     }
 
     @Override
+    public Class<?> getType() {
+        return YamlSequence.class;
+    }
+
+    @Override
+    public String getKey() {
+        return super.getKey();
+    }
+
+    @Override
     public String toString() {
         return "YamlSequence{" +
                 "key='" + key + '\'' +
                 ", value=" + value +
                 '}';
     }
+
+
 }

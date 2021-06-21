@@ -1,4 +1,4 @@
-package com.szymanski.yamlobjectmapper.converters.field;
+package com.szymanski.yamlobjectmapper.converters;
 
 import com.szymanski.yamlobjectmapper.exceptions.InvalidValueForBoolean;
 

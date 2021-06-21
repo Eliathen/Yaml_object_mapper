@@ -24,4 +24,19 @@ public class YamlScalar extends YamlNode {
     public String toString() {
         return value;
     }
+
+    @Override
+    public Class<?> getType() {
+        return YamlScalar.class;
+    }
+
+    @Override
+    public void addNode(YamlNode node) {
+        super.addNode(node);
+    }
+
+    @Override
+    public String getKey() {
+        return null;
+    }
 }

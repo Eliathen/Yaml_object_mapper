@@ -1,7 +1,0 @@
-#Example Yaml
-
-receipt:
-  date: "2012-08-06"
-  customer:
-    first_name: "John"
-    family_name: "Dee"
