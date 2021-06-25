@@ -29,7 +29,6 @@ public class YamlParser {
         return analyze(yamlLines);
     }
 
-
     private YamlNode analyze(AllYamlLines yamlLines) {
         var newNode = new YamlComplexObject();
         while (position < numberOfLines) {

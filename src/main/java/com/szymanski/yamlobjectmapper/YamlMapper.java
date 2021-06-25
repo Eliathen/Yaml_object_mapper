@@ -18,7 +18,6 @@ public class YamlMapper {
     private final YamlWriter writer;
     private final YamlResolverToFile yamlResolverToFile;
     private final YamlResolverToObject yamlResolverToObject;
-    private Map<String, YamlNode> nodes;
 
     public YamlMapper() {
         yamlParser = new YamlParser();
@@ -27,21 +26,19 @@ public class YamlMapper {
         yamlResolverToObject = new YamlResolverToObject();
     }
 
-    public <T> T mapToObject(String path, Class<T> type) throws NotDirectoryException {
+    public <T> T mapToObject(String path, Class<T> type) throws NotDirectoryException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException {
         File file = new File(path);
         if (!file.isDirectory()) throw new NotDirectoryException("Path is not to directory");
         List<YamlNode> nodes = new ArrayList<>();
         Arrays.stream(Objects.requireNonNull(file.listFiles()))
                 .filter(it -> it.isFile() && (it.getName().contains(".yml") || it.getName().contains(".yaml")))
                 .forEach(it -> nodes.add(yamlParser.parse(it.getAbsolutePath())));
-        nodes.forEach(System.out::println);
         return (T) yamlResolverToObject.resolve(nodes, type);
     }
 
     public <T> void mapToYamlFile(T object) throws NoSuchFieldException, InvocationTargetException, IllegalAccessException {
         var result = yamlResolverToFile.resolve(object);
         for (String key : result.keySet()) {
-            System.out.println(result.get(key));
             writer.saveToFile(result.get(key));
             List<String> lines = writer.getResult();
             try {

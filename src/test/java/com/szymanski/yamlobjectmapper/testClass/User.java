@@ -1,9 +1,11 @@
 package com.szymanski.yamlobjectmapper.testClass;
 
-import com.szymanski.yamlobjectmapper.annotations.*;
-import lombok.*;
+import com.szymanski.yamlobjectmapper.annotations.YamlClass;
+import com.szymanski.yamlobjectmapper.annotations.YamlKey;
+import com.szymanski.yamlobjectmapper.annotations.YamlOneToOne;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.List;
 import java.util.Objects;
 
 @YamlClass(name = "user")

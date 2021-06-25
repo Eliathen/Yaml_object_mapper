@@ -6,8 +6,8 @@ import com.szymanski.yamlobjectmapper.testClass.*;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.NotDirectoryException;
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
 
@@ -18,9 +18,20 @@ public class Main {
             mapper.mapToYamlFile(client);
             System.out.println();
             var obj = mapper.mapToObject("D:\\Projects\\Yaml_object_mapper", Client.class);
-            System.out.println("Before mappping     = " + client);
-            System.out.println("This is O-B-J-E-C-T = " + obj);
-        } catch (NoSuchFieldException | InvocationTargetException | IllegalAccessException | NotDirectoryException e) {
+            System.out.println("Before mapping = " + client);
+            System.out.println("After  mapping = " + obj);
+            Set<Category> categories = new HashSet<>();
+            System.out.println();
+            for (Order order : obj.getOrders()) {
+                for (Product product : order.getProducts()) {
+                    categories.addAll(product.getCategories());
+                }
+            }
+            for (Category category : categories) {
+                System.out.println(category.getName());
+                System.out.println(category.getProducts());
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

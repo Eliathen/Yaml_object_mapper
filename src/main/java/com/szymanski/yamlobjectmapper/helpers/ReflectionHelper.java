@@ -29,10 +29,17 @@ public class ReflectionHelper {
             String name = getGetterNameForFieldName(fieldName);
             return object.getClass().getMethod(name).invoke(object);
         } catch (NoSuchMethodException e) {
-            Field field = object.getClass().getDeclaredField(fieldName);
-            field.setAccessible(true);
-            Object result = field.get(object);
-            field.setAccessible(false);
+            List<Field> superclassFields = getSuperclassFields(object);
+            superclassFields.addAll(List.of(object.getClass().getDeclaredFields()));
+            Optional<Field> field = superclassFields.stream().filter(it -> it.getName().equals(fieldName)).findFirst();
+            Object result = null;
+            if(field.isPresent()){
+                field.get().setAccessible(true);
+                result = field.get().get(object);
+                field.get().setAccessible(false);
+            } else {
+                throw new NoSuchFieldException("Field " +fieldName + " not exist");
+            }
             return result;
         }
     }

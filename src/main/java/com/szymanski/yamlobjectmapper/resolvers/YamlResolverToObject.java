@@ -17,7 +17,6 @@ public class YamlResolverToObject {
 
     private final Map<String, YamlNode> yamlNodes = new HashMap<>();
 
-
     private final Map<String, Object> resolvedObjects = new HashMap<>();
 
     private final ConverterManager converterManager;
@@ -26,22 +25,22 @@ public class YamlResolverToObject {
         this.converterManager = new ConverterManager();
     }
 
-    @SneakyThrows
-    public Object resolve(List<YamlNode> nodes, Class<?> clazz) {
+    public Object resolve(List<YamlNode> nodes, Class<?> clazz) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException {
         Collections.reverse(nodes);
         for (YamlNode node : nodes) {
             yamlNodes.put(node.getKey(), node);
+            
         }
-        return resolveYaml(nodes.get(0), clazz);
+        var result =  resolveYaml(nodes.get(0), clazz, false);
+        return result;
     }
 
-    @SneakyThrows
-    private Object resolveYaml(YamlNode node, Class<?> clazz) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    private Object resolveYaml(YamlNode node, Class<?> clazz, boolean shouldSkip) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, InstantiationException {
         if(node instanceof YamlComplexObject){
             var object = clazz.getConstructor().newInstance();
+            object = isContainsYamlId(object, node);
             for (YamlNode yamlNode : ((YamlComplexObject) node).getValue()) {
-                if(yamlNode.getKey().contains("_")) {
-                    resolvedObjects.put(((YamlDictionary) yamlNode).getValue().getValue(), object);
+                if(yamlNode.getKey().equals("_id")) {
                     continue;
                 }
                 var field = ReflectionHelper.getFieldForObjectByKey(object, yamlNode.getKey());
@@ -52,17 +51,28 @@ public class YamlResolverToObject {
                     return resolveYamlScalar((YamlScalar) yamlNode, field);
                 } else if(yamlNode instanceof YamlSequence){
                     var fieldType = (ParameterizedType) field.getGenericType();
-                    clazz.getMethod(method, field.getType()).invoke(object, resolveYaml(yamlNode, (Class<?>) fieldType.getActualTypeArguments()[0]));
+                    clazz.getMethod(method, field.getType()).invoke(object, resolveYaml(yamlNode, (Class<?>) fieldType.getActualTypeArguments()[0], shouldSkip));
                 }
                 else {
-                    clazz.getMethod(method, field.getType()).invoke(object, resolveYaml(yamlNode, field.getType()));
+                    clazz.getMethod(method, field.getType()).invoke(object, resolveYaml(yamlNode, field.getType(), shouldSkip));
                 }
             }
             return object;
         } else if(node instanceof YamlSequence){
-            return resolveYamlSequence((YamlSequence) node, clazz);
+            return resolveYamlSequence((YamlSequence) node, clazz, shouldSkip);
         }
         return converterManager.convertToValue(clazz, ((YamlScalar) node).getValue(), "" );
+    }
+
+    private Object isContainsYamlId(Object object, YamlNode yamlNode) {
+        for (YamlNode node : ((YamlComplexObject) yamlNode).getValue()) {
+            if(node.getKey().contains("_id") && !resolvedObjects.containsKey(((YamlDictionary) node).getValue().getValue())) {
+                resolvedObjects.put(((YamlDictionary) node).getValue().getValue(), object);
+            } else if(node.getKey().contains("_id")){
+                object = resolvedObjects.get(((YamlDictionary) node).getValue().getValue());
+            }
+        }
+        return object;
     }
 
     private Object resolveYamlDictionary(YamlDictionary node, Field field) {
@@ -71,20 +81,35 @@ public class YamlResolverToObject {
     private Object resolveYamlScalar(YamlScalar node, Field field){
         return converterManager.convertToValue(field.getType(), node.getValue(), field.getAnnotation(YamlKey.class).pattern());
     }
-    @SneakyThrows
-    private <T> List<T> resolveYamlSequence(YamlSequence node, Class<T> type) {
+    private <T> List<T> resolveYamlSequence(YamlSequence node, Class<T> type, boolean shouldSkip) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException {
         List<T> list = new ArrayList<>();
         if(node.getTags() != null){
             Optional<String> tag = node.getTags().stream().findAny();
-            if(tag.isPresent() && yamlNodes.containsKey(tag.get())) {
-//                resolveYaml(yamlNodes.get(tag.get()), type);
-//                list.add((T) res);
+            if(tag.isPresent() && !shouldSkip) {
+                for (YamlNode yamlNode : node.getValue()) {
+                    String key = ((YamlScalar) yamlNode).getValue();
+                    if(!resolvedObjects.containsKey(key) && yamlNodes.containsKey(tag.get())){
+                        resolveYaml(yamlNodes.get(tag.get()), type, true);
+                    }
+                    if(resolvedObjects.containsKey(key)){
+                        list.add((T) resolvedObjects.get(key));
+                    }
+                }
             } else {
-
+                for (YamlNode yamlNode : node.getValue()) {
+                    String key = ((YamlScalar) yamlNode).getValue();
+                    var obj = type.getConstructor().newInstance();
+                    if(resolvedObjects.containsKey(key)){
+                        list.add((T) resolvedObjects.get(key));
+                    } else {
+                        resolvedObjects.put(key, obj);
+                        list.add(obj);
+                    }
+                }
             }
         }else {
             for (YamlNode yamlNode : (node).getValue()) {
-                var res = resolveYaml(yamlNode, type);
+                var res = resolveYaml(yamlNode, type, shouldSkip);
                 list.add((T) res);
             }
         }
