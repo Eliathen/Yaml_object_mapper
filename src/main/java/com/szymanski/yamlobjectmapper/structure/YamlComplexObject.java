@@ -47,11 +47,6 @@ public class YamlComplexObject extends YamlCollection {
     }
 
     @Override
-    Object resolve(String key, YamlNode value, Class<?> name) {
-        return null;
-    }
-
-    @Override
     public Class<?> getType() {
         return YamlComplexObject.class;
     }

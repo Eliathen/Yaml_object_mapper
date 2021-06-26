@@ -3,11 +3,26 @@ package com.szymanski.yamlobjectmapper;
 import com.szymanski.yamlobjectmapper.testClass.Client;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.io.File;
 
 class YamlMapperTest {
 
     private YamlMapper yamlMapper = new YamlMapper();
+
+    @BeforeEach
+    public void removeFiles(){
+        File file = new File("D:\\Projects\\Yaml_object_mapper");
+        if(file.isDirectory()){
+            for (File listFile : file.listFiles()) {
+                if(listFile.getName().contains(".yaml")){
+                    listFile.delete();
+                }
+            }
+        }
+    }
 
     @SneakyThrows
     @Test

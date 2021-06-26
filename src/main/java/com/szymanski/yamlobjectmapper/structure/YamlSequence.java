@@ -22,11 +22,6 @@ public class YamlSequence extends YamlCollection {
     }
 
     @Override
-    public Object resolve(String key, YamlNode value, Class<?> name) {
-        return null;
-    }
-
-    @Override
     public void addNode(YamlNode node) {
         value.add(node);
     }

@@ -16,7 +16,4 @@ public abstract class YamlCollection extends YamlNode {
         anchors.add(anchor);
     }
 
-
-    abstract Object resolve(String key, YamlNode value, Class<?> name);
-
 }

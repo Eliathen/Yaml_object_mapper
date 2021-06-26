@@ -20,12 +20,6 @@ public class YamlDictionary extends YamlNode {
         this.value = value;
     }
 
-
-    @Override
-    public Object resolve(String key, YamlNode value, Class<?> name) {
-        return null;
-    }
-
     @Override
     public String toString() {
         return "YamlDictionary{" +

@@ -21,7 +21,7 @@ public class Order {
     @YamlKey
     private Long id;
 
-    @YamlKey
+    @YamlKey(pattern = "yyyy-MM-dd")
     private LocalDate date;
 
     @YamlOneToMany

@@ -33,16 +33,17 @@ public class ReflectionHelper {
             superclassFields.addAll(List.of(object.getClass().getDeclaredFields()));
             Optional<Field> field = superclassFields.stream().filter(it -> it.getName().equals(fieldName)).findFirst();
             Object result = null;
-            if(field.isPresent()){
+            if (field.isPresent()) {
                 field.get().setAccessible(true);
                 result = field.get().get(object);
                 field.get().setAccessible(false);
             } else {
-                throw new NoSuchFieldException("Field " +fieldName + " not exist");
+                throw new NoSuchFieldException("Field " + fieldName + " not exist");
             }
             return result;
         }
     }
+
     public static String getGetterNameForFieldName(String fieldName) {
         return "get" + fieldName.substring(0, 1).toUpperCase(Locale.ROOT) + fieldName.substring(1);
     }
@@ -50,16 +51,13 @@ public class ReflectionHelper {
     public static String getSetterNameForFieldName(String fieldName) {
         return "set" + fieldName.substring(0, 1).toUpperCase(Locale.ROOT) + fieldName.substring(1);
     }
-    public static Field getFieldForObjectByKey(Object object, String key){
+
+    public static Field getFieldForObjectByKey(Object object, String key) {
         List<Field> fields = Arrays.stream(object.getClass().getDeclaredFields()).collect(Collectors.toList());
         fields.addAll(getSuperclassFields(object));
         Field retField = null;
         for (Field field : fields) {
-//            var annotation = Arrays.stream(field.getAnnotationsByType(YamlKey.class)).filter(it -> it.annotationType().equals(YamlKey.class)).findFirst();
-            /*if(annotation.isPresent() && annotation.get().name().equals(key)){
-                retField = field;
-                break;
-            } else*/ if(field.getName().equals(key)){
+            if (field.getName().equals(key)) {
                 retField = field;
                 break;
             }
@@ -77,9 +75,4 @@ public class ReflectionHelper {
         }
         return false;
     }
-
-    public static Annotation[] getAnnotations(Class<?> clazz) {
-        return clazz.getAnnotations();
-    }
-
 }
