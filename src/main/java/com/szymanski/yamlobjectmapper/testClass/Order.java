@@ -14,13 +14,13 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@YamlClass(name = "order")
+@YamlClass
 public class Order {
 
-    @YamlKey(name = "id")
+    @YamlKey
     private Long id;
 
-    @YamlKey(name = "date", pattern = "yyyy-MM-dd")
+    @YamlKey(pattern = "yyyy-MM-dd")
     private LocalDate date;
 
     @YamlOneToMany

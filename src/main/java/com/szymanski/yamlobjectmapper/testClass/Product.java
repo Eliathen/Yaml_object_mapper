@@ -13,14 +13,14 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@YamlClass(name = "product")
+@YamlClass
 public class Product {
 
-    @YamlKey(name = "productId")
+    @YamlKey
     private Long productId;
-    @YamlKey(name = "name")
+    @YamlKey
     private String name;
-    @YamlKey(name = "price")
+    @YamlKey
     private Double price;
 
     @YamlManyToMany

@@ -8,15 +8,15 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @AllArgsConstructor
-@YamlClass(name = "address")
+@YamlClass
 @EqualsAndHashCode
 public class Address {
 
-    @YamlKey(name = "city")
+    @YamlKey
     private String city;
-    @YamlKey(name = "street")
+    @YamlKey
     private String street;
-    @YamlKey(name = "buildingNumber")
+    @YamlKey
     private String buildingNumber;
 
     public Address() {

@@ -8,6 +8,5 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface YamlKey {
-    String name();
     String pattern() default "";
 }

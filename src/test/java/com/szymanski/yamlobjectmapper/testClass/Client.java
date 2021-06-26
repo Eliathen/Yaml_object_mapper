@@ -14,14 +14,14 @@ import java.util.Objects;
 @NoArgsConstructor
 @Data
 @ToString
-@YamlClass(name = "client")
+@YamlClass
 public class Client extends User{
 
-    @YamlKey(name = "age")
+    @YamlKey
     private int age;
-    @YamlKey(name = "first_name")
+    @YamlKey
     private String firstName;
-    @YamlKey(name = "second_name")
+    @YamlKey
     private List<String> secondNames;
     @YamlOneToMany
     private List<Order> orders;

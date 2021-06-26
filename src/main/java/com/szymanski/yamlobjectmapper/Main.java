@@ -31,6 +31,11 @@ public class Main {
                 System.out.println(category.getName());
                 System.out.println(category.getProducts());
             }
+            Address address = new Address("Kielce", "Street", "ABC");
+            User user = new User(1, address);
+            mapper.mapToYamlFile(user);
+            User newUser = mapper.mapToObject("D:\\Projects\\Yaml_object_mapper", User.class);
+            System.out.println(newUser);
         } catch (Exception e) {
             e.printStackTrace();
         }

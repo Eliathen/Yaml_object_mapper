@@ -55,11 +55,11 @@ public class ReflectionHelper {
         fields.addAll(getSuperclassFields(object));
         Field retField = null;
         for (Field field : fields) {
-            var annotation = Arrays.stream(field.getAnnotationsByType(YamlKey.class)).filter(it -> it.annotationType().equals(YamlKey.class)).findFirst();
-            if(annotation.isPresent() && annotation.get().name().equals(key)){
+//            var annotation = Arrays.stream(field.getAnnotationsByType(YamlKey.class)).filter(it -> it.annotationType().equals(YamlKey.class)).findFirst();
+            /*if(annotation.isPresent() && annotation.get().name().equals(key)){
                 retField = field;
                 break;
-            } else if(field.getName().equals(key)){
+            } else*/ if(field.getName().equals(key)){
                 retField = field;
                 break;
             }

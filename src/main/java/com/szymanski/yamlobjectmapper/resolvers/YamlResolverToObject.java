@@ -7,6 +7,7 @@ import com.szymanski.yamlobjectmapper.structure.*;
 import com.szymanski.yamlobjectmapper.testClass.Client;
 import lombok.SneakyThrows;
 
+import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
@@ -25,14 +26,18 @@ public class YamlResolverToObject {
         this.converterManager = new ConverterManager();
     }
 
-    public Object resolve(List<YamlNode> nodes, Class<?> clazz) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException {
+    public Object resolve(List<YamlNode> nodes, Class<?> clazz) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException, FileNotFoundException {
         Collections.reverse(nodes);
         for (YamlNode node : nodes) {
             yamlNodes.put(node.getKey(), node);
-            
         }
-        var result =  resolveYaml(nodes.get(0), clazz, false);
-        return result;
+        var firstClass = nodes.stream().filter(it -> it.getKey().equals(clazz.getSimpleName().toLowerCase(Locale.ROOT))).findFirst();
+        if(firstClass.isPresent()){
+            var result =  resolveYaml(firstClass.get(), clazz, false);
+            return result;
+        } else {
+            throw new FileNotFoundException("Not find file " + clazz.getSimpleName() + ".yaml");
+        }
     }
 
     private Object resolveYaml(YamlNode node, Class<?> clazz, boolean shouldSkip) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, InstantiationException {

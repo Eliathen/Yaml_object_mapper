@@ -148,9 +148,9 @@ public class YamlResolverToFile {
 
     private <T> String getKeyName(T object, String name) {
         if (object.getClass().isAnnotationPresent(YamlKey.class)) {
-            return object.getClass().getAnnotation(YamlKey.class).name();
+            return object.getClass().getSimpleName();
         } else if (object.getClass().isAnnotationPresent(YamlClass.class)) {
-            return object.getClass().getAnnotation(YamlClass.class).name();
+            return object.getClass().getSimpleName().toLowerCase();
         } else {
             return name;
         }

@@ -8,19 +8,19 @@ import lombok.Setter;
 
 import java.util.Objects;
 
-@YamlClass(name = "user")
+@YamlClass
 @Getter
 @Setter
 public class User {
 
-    @YamlKey(name = "id")
+    @YamlKey
     protected int id;
 
     @YamlOneToOne
-    @YamlKey(name = "address")
+    @YamlKey
     protected Address address;
 
-    @YamlKey(name = "isActive")
+    @YamlKey
     protected boolean isActive = true;
 
     public boolean getIsActive() {
@@ -50,5 +50,14 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(id, address);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", address=" + address +
+                ", isActive=" + isActive +
+                '}';
     }
 }

@@ -3,8 +3,6 @@ package com.szymanski.yamlobjectmapper;
 import com.szymanski.yamlobjectmapper.testClass.Client;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class YamlMapperTest {

@@ -6,6 +6,7 @@ import com.szymanski.yamlobjectmapper.resolvers.YamlResolverToObject;
 import com.szymanski.yamlobjectmapper.structure.YamlNode;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -26,7 +27,7 @@ public class YamlMapper {
         yamlResolverToObject = new YamlResolverToObject();
     }
 
-    public <T> T mapToObject(String path, Class<T> type) throws NotDirectoryException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException {
+    public <T> T mapToObject(String path, Class<T> type) throws NotDirectoryException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException, FileNotFoundException {
         File file = new File(path);
         if (!file.isDirectory()) throw new NotDirectoryException("Path is not to directory");
         List<YamlNode> nodes = new ArrayList<>();

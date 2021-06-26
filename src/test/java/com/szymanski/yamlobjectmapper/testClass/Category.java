@@ -11,16 +11,16 @@ import java.util.Objects;
 
 @NoArgsConstructor
 @Data
-@YamlClass(name = "category")
+@YamlClass
 public class Category {
 
-    @YamlKey(name = "id")
+    @YamlKey
     private Integer id;
 
-    @YamlKey(name = "name")
+    @YamlKey
     private String name;
 
-    @YamlKey(name = "description")
+    @YamlKey
     private String description;
 
     @Mapped(name = "products")
