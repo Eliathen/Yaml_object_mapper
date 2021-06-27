@@ -27,7 +27,6 @@ public class YamlResolverToObject {
     }
 
     public Object resolve(List<YamlNode> nodes, Class<?> clazz) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException, FileNotFoundException {
-        Collections.reverse(nodes);
         for (YamlNode node : nodes) {
             yamlNodes.put(node.getKey(), node);
         }
