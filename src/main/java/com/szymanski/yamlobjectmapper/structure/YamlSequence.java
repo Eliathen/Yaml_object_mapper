@@ -13,6 +13,7 @@ public class YamlSequence extends YamlCollection {
     public YamlSequence() {
         anchors = new ArrayList<>();
         value = new ArrayList<>();
+        tags = new ArrayList<>();
     }
 
     public YamlSequence(List<YamlNode> nodes) {
