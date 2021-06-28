@@ -2,7 +2,6 @@ package com.szymanski.yamlobjectmapper.testClass;
 
 
 import com.szymanski.yamlobjectmapper.annotations.YamlClass;
-import com.szymanski.yamlobjectmapper.annotations.YamlId;
 import com.szymanski.yamlobjectmapper.annotations.YamlKey;
 import com.szymanski.yamlobjectmapper.annotations.YamlManyToMany;
 import lombok.*;

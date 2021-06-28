@@ -3,7 +3,6 @@ package com.szymanski.yamlobjectmapper;
 import com.szymanski.yamlobjectmapper.structure.*;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class YamlWriter {
@@ -28,7 +27,7 @@ public class YamlWriter {
     }
 
     private void saveFlowSequence(YamlSequence yaml, String prefix) {
-        String line = prefix + yaml.getKey() + ": " + getAnchorsAsString(yaml) + " [";
+        String line = prefix + yaml.getKey() + ": " + getTagsAsString(yaml) + " [";
         StringBuilder lineBuilder = new StringBuilder(line);
         if (yaml.getValue().isEmpty()) {
             lineBuilder.append("]");
@@ -43,12 +42,12 @@ public class YamlWriter {
         result.add(line);
     }
 
-    private String getAnchorsAsString(YamlSequence yaml) {
-        StringBuilder anchors = new StringBuilder();
-        for (String anchor : yaml.getAnchors()) {
-            anchors.append("!").append(anchor).append(" ");
+    private String getTagsAsString(YamlSequence yaml) {
+        StringBuilder tags = new StringBuilder();
+        for (String tag : yaml.getTags()) {
+            tags.append("!").append(tag).append(" ");
         }
-        return anchors.toString().trim();
+        return tags.toString().trim();
     }
 
     private void saveScalar(YamlScalar scalar, String prefix) {
@@ -89,7 +88,7 @@ public class YamlWriter {
             if (yaml instanceof YamlComplexObject) {
                 saveComplexObject((YamlComplexObject) yaml, prefix.replace("-", " "));
             } else if (yaml instanceof YamlSequence) {
-                if (((YamlSequence) yaml).getAnchors().isEmpty()) {
+                if (yaml.getTags().isEmpty()) {
                     saveBlockSequence((YamlSequence) yaml, prefix);
                 } else {
                     saveFlowSequence((YamlSequence) yaml, prefix);

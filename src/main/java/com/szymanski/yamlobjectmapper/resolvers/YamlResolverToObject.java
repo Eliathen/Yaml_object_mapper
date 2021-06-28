@@ -27,7 +27,6 @@ public class YamlResolverToObject {
     }
 
     public Object resolve(List<YamlNode> nodes, Class<?> clazz) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException, FileNotFoundException {
-        Collections.reverse(nodes);
         for (YamlNode node : nodes) {
             yamlNodes.put(node.getKey(), node);
         }
@@ -88,7 +87,7 @@ public class YamlResolverToObject {
     }
     private <T> List<T> resolveYamlSequence(YamlSequence node, Class<T> type, boolean shouldSkip) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException {
         List<T> list = new ArrayList<>();
-        if(node.getTags() != null){
+        if(node.getTags() != null && node.getTags().size() > 0){
             Optional<String> tag = node.getTags().stream().findAny();
             if(tag.isPresent() && !shouldSkip) {
                 for (YamlNode yamlNode : node.getValue()) {

@@ -6,7 +6,7 @@ public abstract class YamlNode {
 
     private String anchor;
 
-    private List<String> tags;
+    protected List<String> tags;
 
     public void addNode(YamlNode node) {
 
@@ -14,10 +14,6 @@ public abstract class YamlNode {
     public abstract Class<?> getType();
 
     public abstract String getKey();
-
-    public String getAnchor() {
-        return anchor;
-    }
 
     public List<String> getTags() {
         return tags;

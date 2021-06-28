@@ -68,7 +68,7 @@ public class YamlResolverToFile {
                     Collection<?> value = (Collection<?>) ReflectionHelper.getFieldValue(object, field.getName());
                     var keys = new YamlSequence();
                     keys.setKey(keyName);
-                    keys.setAnchors(Collections.singletonList(keyName));
+                    keys.setTags(Collections.singletonList(keyName));
                     for (Object o : value) {
                         var generatedKey = new YamlDictionary();
                         YamlNode resolvedNode = resolveToYaml(o);
@@ -128,7 +128,7 @@ public class YamlResolverToFile {
             } else {
                 YamlSequence keys = new YamlSequence();
                 keys.setKey(field.getName());
-                keys.setAnchors(Collections.singletonList(field.getAnnotation(Mapped.class).name()));
+                keys.setTags(Collections.singletonList(field.getAnnotation(Mapped.class).name()));
                 Collection<?> value = (Collection<?>) ReflectionHelper.getFieldValue(object, field.getName());
                 for (Object o : value) {
                     if (mapping.containsKey(o)) {
